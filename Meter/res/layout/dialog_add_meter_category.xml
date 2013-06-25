@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_dialog_item" >
+
+        <TextView
+            android:id="@+id/tVMeterCategory"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:text="@string/dialog_add_meter_categ_tvMeterCateg" />
+
+        <EditText
+            android:id="@+id/edTMeterCategory"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:ems="10" 
+            android:inputType="text">
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_dialog_item" >
+
+        <TextView
+            android:id="@+id/tVUnitsExist"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:text="@string/dialog_add_meter_categ_tvExistUnits" />
+
+        <Spinner
+            android:id="@+id/spinUnitsExist"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:entries="@array/meter_units" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_dialog_item" >
+
+        <TextView
+            android:id="@+id/tVNewUnit"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:text="@string/dialog_add_meter_categ_tvNewUnit" />
+
+        <EditText
+            android:id="@+id/edTNewUnit"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:ems="10" 
+            android:inputType="text">
+        </EditText>
+    </LinearLayout>
+
+</LinearLayout>

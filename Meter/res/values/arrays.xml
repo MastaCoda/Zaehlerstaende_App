@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tab_names">
+        <item>Strom</item>
+        <item>Wasser</item>
+        <item>Gas</item>
+        <item>etc.</item>
+    </string-array>
+    
+    <string-array name="meter_units">
+        <item>kWh</item>
+        <item>m³</item>
+    </string-array>
+    
+    
+</resources>

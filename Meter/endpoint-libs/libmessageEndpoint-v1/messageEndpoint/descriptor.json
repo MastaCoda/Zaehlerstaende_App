@@ -1,11 +1,11 @@
 {
   "files": [
     {
-      "path": "metertracker-messageEndpoint-v1-20130619130402-java-1.15.0-rc-sources.jar", 
+      "path": "metertracker-messageEndpoint-v1-20130622122445-java-1.15.0-rc-sources.jar", 
       "type": "source"
     }, 
     {
-      "path": "metertracker-messageEndpoint-v1-20130619130402-java-1.15.0-rc.jar.properties", 
+      "path": "metertracker-messageEndpoint-v1-20130622122445-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -689,7 +689,7 @@
     }
   ], 
   "language_version": "1.15.0-rc", 
-  "revision": 20130619130402, 
+  "revision": 20130622122445, 
   "id": "messageEndpoint:v1", 
   "modulePath": "de/roman/meter"
 }
