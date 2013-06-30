@@ -1,11 +1,11 @@
 {
   "files": [
     {
-      "path": "metertracker-deviceinfoendpoint-v1-20130622122438-java-1.15.0-rc-sources.jar", 
+      "path": "metertracker-deviceinfoendpoint-v1-20130626225842-java-1.15.0-rc-sources.jar", 
       "type": "source"
     }, 
     {
-      "path": "metertracker-deviceinfoendpoint-v1-20130622122438-java-1.15.0-rc.jar.properties", 
+      "path": "metertracker-deviceinfoendpoint-v1-20130626225842-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -689,7 +689,7 @@
     }
   ], 
   "language_version": "1.15.0-rc", 
-  "revision": 20130622122438, 
+  "revision": 20130626225842, 
   "id": "deviceinfoendpoint:v1", 
   "modulePath": "de/roman/meter"
 }

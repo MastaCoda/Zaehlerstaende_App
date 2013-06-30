@@ -1,17 +1,33 @@
 package de.roman.meter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.json.jackson.JacksonFactory;
+
+import de.roman.meter.userendpoint.Userendpoint;
+import de.roman.meter.userendpoint.model.User;
+
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -94,6 +110,8 @@ public class HomeActivity extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+		new EndpointsTask().execute(getApplicationContext());
 	}
 
 	@Override
@@ -144,6 +162,7 @@ public class HomeActivity extends FragmentActivity implements
 	{
 	}
 
+	// function for building the dialog for adding a meter
 	public Dialog addMeter()
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -166,17 +185,19 @@ public class HomeActivity extends FragmentActivity implements
 				.setNegativeButton(R.string.dialog_add_meter_cancel, null);
 		return builder.create();
 	}
-	
+
+	// function for building the dialog for adding a meter category
 	public Dialog addMeterCategory()
 	{
 		// Get the layout inflater
 		LayoutInflater inflater = this.getLayoutInflater();
-		
+
 		// set layout for Dialog
-		final View layout = (inflater.inflate(R.layout.dialog_add_meter_category, null));
-		
+		final View layout = (inflater.inflate(
+				R.layout.dialog_add_meter_category, null));
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		
+
 		builder.setTitle(R.string.dialog_add_meter_categ_title);
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout
@@ -187,15 +208,91 @@ public class HomeActivity extends FragmentActivity implements
 							@Override
 							public void onClick(DialogInterface dialog, int id)
 							{
-								// Kategorie hinzufügen
+								EditText edtMeterCategory = (EditText) layout
+										.findViewById(R.id.edTMeterCategory);
+								String category = edtMeterCategory.getText()
+										.toString();
 							}
 						})
 				.setNegativeButton(R.string.dialog_add_meter_categ_cancel, null);
 		AlertDialog dialog = builder.create();
 		return dialog;
 	}
-	
-	
+
+	// checks whether the category or unit already exists
+	public boolean checkStringDuplicate(String checkString, int typ)
+	{
+		boolean alreadyExists = false;
+		String[] array;
+		switch (typ)
+		{
+			case 0:
+				array = getResources().getStringArray(R.array.categories);
+				break;
+			case 1:
+				array = getResources().getStringArray(R.array.meter_units);
+				break;
+			default:
+				array = new String[]
+				{ "default" };
+		}
+
+		for (int i = 0; i <= array.length; i++)
+		{
+			if (array[i].equals(checkString))
+			{
+				alreadyExists = true;
+			}
+		}
+
+		return alreadyExists;
+	}
+
+	public static void setPreferenceArray(Context context, String key,
+			ArrayList<String> values)
+	{
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		JSONArray a = new JSONArray();
+		for (int i = 0; i < values.size(); i++)
+		{
+			a.put(values.get(i));
+		}
+		if (!values.isEmpty())
+		{
+			editor.putString(key, a.toString());
+		} else
+		{
+			editor.putString(key, null);
+		}
+		editor.commit();
+	}
+
+	public static ArrayList<String> getPreferenceArray(Context context,
+			String key)
+	{
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		String json = prefs.getString(key, null);
+		ArrayList<String> arrayList = new ArrayList<String>();
+		if (json != null)
+		{
+			try
+			{
+				JSONArray jsonArray = new JSONArray(json);
+				for (int i = 0; i < jsonArray.length(); i++)
+				{
+					String url = jsonArray.optString(i);
+					arrayList.add(url);
+				}
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return arrayList;
+	}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -213,7 +310,7 @@ public class HomeActivity extends FragmentActivity implements
 		public Fragment getItem(int position)
 		{
 			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
+			// Return a SectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
 			Fragment fragment = new SectionFragment();
 			Bundle args = new Bundle();
@@ -226,7 +323,8 @@ public class HomeActivity extends FragmentActivity implements
 		public int getCount()
 		{
 			Resources res = getResources();
-			String[] tabs = res.getStringArray(R.array.tab_names);
+			String[] tabs = res.getStringArray(R.array.categories);
+			// /getPreferenceArray(HomeActivity.this, "bla");
 
 			// Show total amount of pages.
 			return tabs.length;
@@ -236,7 +334,7 @@ public class HomeActivity extends FragmentActivity implements
 		public CharSequence getPageTitle(int position)
 		{
 			Resources res = getResources();
-			String[] tabs = res.getStringArray(R.array.tab_names);
+			String[] tabs = res.getStringArray(R.array.categories);
 
 			return tabs[position];
 		}
@@ -266,13 +364,14 @@ public class HomeActivity extends FragmentActivity implements
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState)
 		{
-			View rootView = inflater.inflate(R.layout.list_meter_overview, container, false);
+			View rootView = inflater.inflate(R.layout.list_meter_overview,
+					container, false);
 
 			msgList = (ListView) rootView.findViewById(R.id.MessageList);
 
 			details = new ArrayList<MeterOverview>();
-			
-			//Dummy Einträge
+
+			// Dummy Einträge
 			MeterOverview meter;
 			meter = new MeterOverview();
 			meter.setIcon(R.drawable.content_new);
@@ -296,9 +395,43 @@ public class HomeActivity extends FragmentActivity implements
 			details.add(meter);
 
 			msgList.setAdapter(new CustomAdapter(details, getActivity()));
+			
+			//new EndpointsTask().execute(getActivity());
 
 			return rootView;
-		}	
+		}
+	}
+
+	public class EndpointsTask extends AsyncTask<Context, Integer, Long>
+	{
+		protected Long doInBackground(Context... contexts)
+		{
+
+			Userendpoint.Builder endpointBuilder = new Userendpoint.Builder(
+					AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
+					new HttpRequestInitializer()
+					{
+						public void initialize(HttpRequest httpRequest)
+						{
+						}
+					});
+			Userendpoint endpoint = CloudEndpointUtils.updateBuilder(
+					endpointBuilder).build();
+			try
+			{
+				User user = new User().setName("Silli");
+				//user.setId("2");
+				//String noteID = new Date().toString();
+				//user.setName("Roman");
+				user.setPassword("sdf");
+				//user.setEmailAddress("E-Mail Address");
+				User result = endpoint.insertUser(user).execute();//insertUser(user).execute();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			return (long) 0;
+		}
 	}
 
 }
