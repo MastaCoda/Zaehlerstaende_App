@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/padding_dialog_item" >
 
     <ListView
-        android:id="@+id/MessageList"
+        android:id="@+id/MeterList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>

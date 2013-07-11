@@ -46,7 +46,7 @@
 // * GCMIntentService.java. If you're going to be running a local version of the
 // * App Engine backend (using the DevAppServer), you'll need to toggle the
 // * LOCAL_ANDROID_RUN flag in CloudEndpointUtils.java. See the javadoc in these
-// * classes for more details.
+// * classes for more meterList.
 // * 
 // * For a comprehensive walkthrough, check out the documentation at
 // * http://developers.google.com/eclipse/docs/cloud_endpoints
@@ -93,7 +93,7 @@
 //              showDialog("There was a problem when attempting to register for "
 //                  + "Google Cloud Messaging. If you're running in the emulator, "
 //                  + "is the target of your virtual device set to 'Google APIs?' "
-//                  + "See the Android log for more details.");
+//                  + "See the Android log for more meterList.");
 //              updateState(State.UNREGISTERED);
 //            }
 //          }
@@ -264,7 +264,7 @@
 //            "Exception when listing Messages", exceptionThrown);
 //        showDialog("Failed to retrieve the last 5 messages from " +
 //        		"the endpoint at " + messageEndpoint.getBaseUrl() +
-//        		", check log for details");
+//        		", check log for meterList");
 //      }
 //      else {
 //        TextView messageView = (TextView) findViewById(R.id.msgView);

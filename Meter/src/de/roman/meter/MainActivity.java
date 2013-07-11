@@ -12,7 +12,7 @@
 // * with your App Engine backend using Cloud Endpoints. It also receives push
 // * notifications from backend via Google Cloud Messaging (GCM).
 // * 
-// * Check out RegisterActivity.java for more details.
+// * Check out RegisterActivity.java for more meterList.
 // */
 //public class MainActivity extends Activity {
 //

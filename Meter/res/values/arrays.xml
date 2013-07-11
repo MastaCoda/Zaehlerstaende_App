@@ -4,12 +4,13 @@
         <item>Strom</item>
         <item>Wasser</item>
         <item>Gas</item>
-        <item>etc.</item>
+        <item>Öl</item>
     </string-array>
     
     <string-array name="meter_units">
         <item>kWh</item>
         <item>m³</item>
+        <item>Liter</item>
     </string-array>
     
     
