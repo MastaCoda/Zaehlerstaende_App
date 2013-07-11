@@ -5,22 +5,28 @@ import java.util.ArrayList;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 
 import de.roman.meter.userendpoint.Userendpoint;
 import de.roman.meter.userendpoint.model.User;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -35,6 +41,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -67,6 +74,20 @@ public class HomeActivity extends FragmentActivity implements
 	 */
 	ViewPager mViewPager;
 
+	/**
+	 * Preference object where the app stores the name of the preferred user.
+	 */
+	SharedPreferences settings;
+	String accountName;
+
+	/**
+	 * Credentials object that maintains tokens to send to the backend.
+	 */
+	GoogleAccountCredential credential;
+
+
+	Userendpoint service;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -76,6 +97,31 @@ public class HomeActivity extends FragmentActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		// get android account and check if user exists
+
+		
+
+		// Inside your Activity class onCreate method
+//		settings = getSharedPreferences("TicTacToeSample", 0);
+//		credential = GoogleAccountCredential.usingAudience(this,
+//				"server:client_id:279679354439.apps.googleusercontent.com");
+//		setAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
+//
+//		Userendpoint.Builder builder = new Userendpoint.Builder(
+//				AndroidHttp.newCompatibleTransport(), new GsonFactory(),
+//				credential);
+//		service = builder.build();
+//
+//		if (credential.getSelectedAccountName() != null)
+//		{
+//			// Already signed in, begin app!
+//		} else
+//		{
+//			// Not signed in, show login window or request an account.
+//		}
+
+		// ////////////////////////
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -110,8 +156,23 @@ public class HomeActivity extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
-		
+
 		new EndpointsTask().execute(getApplicationContext());
+	}
+
+	// setAccountName definition
+	private void checkForAccount(String email)
+	{
+		
+		
+		
+		
+		
+		SharedPreferences.Editor editor = settings.edit();
+		//editor.putString(PREF_ACCOUNT_NAME, accountName);
+		editor.commit();
+		credential.setSelectedAccountName(accountName);
+		this.accountName = accountName;
 	}
 
 	@Override
@@ -395,8 +456,8 @@ public class HomeActivity extends FragmentActivity implements
 			details.add(meter);
 
 			msgList.setAdapter(new CustomAdapter(details, getActivity()));
-			
-			//new EndpointsTask().execute(getActivity());
+
+			// new EndpointsTask().execute(getActivity());
 
 			return rootView;
 		}
@@ -417,21 +478,24 @@ public class HomeActivity extends FragmentActivity implements
 					});
 			Userendpoint endpoint = CloudEndpointUtils.updateBuilder(
 					endpointBuilder).build();
-			try
-			{
-				User user = new User().setName("Silli");
-				//user.setId("2");
-				//String noteID = new Date().toString();
-				//user.setName("Roman");
-				user.setPassword("sdf");
-				//user.setEmailAddress("E-Mail Address");
-				User result = endpoint.insertUser(user).execute();//insertUser(user).execute();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			// try
+			// {
+			// // UserEntity user = new UserEntity().setName("Silllllli");
+			// // //user.setId("3");
+			// // //String noteID = new Date().toString();
+			// // //user.setName("Roman");
+			// // user.setPassword("lkmlkmlsdf");
+			// // //user.setEmailAddress("E-Mail Address");
+			// // UserEntity result =
+			// endpoint.insertUser(user).execute();//insertUser(user).execute();
+			// } //catch (IOException e)
+			// //{
+			// // e.printStackTrace();
+			// //}
 			return (long) 0;
 		}
 	}
+	
+	
 
 }
