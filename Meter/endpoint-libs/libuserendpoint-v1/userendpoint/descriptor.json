@@ -1,11 +1,11 @@
 {
   "files": [
     {
-      "path": "metertracker-userendpoint-v1-20130711095800-java-1.15.0-rc-sources.jar", 
+      "path": "metertracker-userendpoint-v1-20130711230842-java-1.15.0-rc-sources.jar", 
       "type": "source"
     }, 
     {
-      "path": "metertracker-userendpoint-v1-20130711095800-java-1.15.0-rc.jar.properties", 
+      "path": "metertracker-userendpoint-v1-20130711230842-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -689,7 +689,7 @@
     }
   ], 
   "language_version": "1.15.0-rc", 
-  "revision": 20130711095800, 
+  "revision": 20130711230842, 
   "id": "userendpoint:v1", 
   "modulePath": "de/roman/meter"
 }

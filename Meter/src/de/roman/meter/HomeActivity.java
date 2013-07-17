@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -16,6 +17,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.gson.JsonObject;
 
 import de.roman.meter.userendpoint.Userendpoint;
 import de.roman.meter.userendpoint.model.User;
@@ -42,6 +44,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -81,14 +84,8 @@ public class HomeActivity extends FragmentActivity implements
 	SharedPreferences settings;
 	String accountName;
 
-	/**
-	 * Credentials object that maintains tokens to send to the backend.
-	 */
-	GoogleAccountCredential credential;
-	
 	Intent welcomeIntent;
-	String metersJson;
-
+	public String metersJson;
 
 	Userendpoint service;
 
@@ -104,8 +101,7 @@ public class HomeActivity extends FragmentActivity implements
 
 		welcomeIntent = getIntent();
 		metersJson = welcomeIntent.getStringExtra("meters");
-		
-		
+
 		// Create the adapter that will return a fragment for each of the
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -222,94 +218,93 @@ public class HomeActivity extends FragmentActivity implements
 		LayoutInflater inflater = this.getLayoutInflater();
 
 		// set layout for Dialog
-		final View layout = (inflater.inflate(
-				R.layout.dialog_info, null));
+		final View layout = (inflater.inflate(R.layout.dialog_info, null));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		builder.setTitle(R.string.dialog_info_title);
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout
-		builder.setView(layout)
-				.setNegativeButton(R.string.dialog_info_cancel, null);
+		builder.setView(layout).setNegativeButton(R.string.dialog_info_cancel,
+				null);
 		AlertDialog dialog = builder.create();
 		return dialog;
 	}
 
 	// checks whether the category or unit already exists
-//	public boolean checkStringDuplicate(String checkString, int typ)
-//	{
-//		boolean alreadyExists = false;
-//		String[] array;
-//		switch (typ)
-//		{
-//			case 0:
-//				array = getResources().getStringArray(R.array.categories);
-//				break;
-//			case 1:
-//				array = getResources().getStringArray(R.array.meter_units);
-//				break;
-//			default:
-//				array = new String[]
-//				{ "default" };
-//		}
-//
-//		for (int i = 0; i <= array.length; i++)
-//		{
-//			if (array[i].equals(checkString))
-//			{
-//				alreadyExists = true;
-//			}
-//		}
-//
-//		return alreadyExists;
-//	}
+	// public boolean checkStringDuplicate(String checkString, int typ)
+	// {
+	// boolean alreadyExists = false;
+	// String[] array;
+	// switch (typ)
+	// {
+	// case 0:
+	// array = getResources().getStringArray(R.array.categories);
+	// break;
+	// case 1:
+	// array = getResources().getStringArray(R.array.meter_units);
+	// break;
+	// default:
+	// array = new String[]
+	// { "default" };
+	// }
+	//
+	// for (int i = 0; i <= array.length; i++)
+	// {
+	// if (array[i].equals(checkString))
+	// {
+	// alreadyExists = true;
+	// }
+	// }
+	//
+	// return alreadyExists;
+	// }
 
-//	public static void setPreferenceArray(Context context, String key,
-//			ArrayList<String> values)
-//	{
-//		SharedPreferences prefs = PreferenceManager
-//				.getDefaultSharedPreferences(context);
-//		SharedPreferences.Editor editor = prefs.edit();
-//		JSONArray a = new JSONArray();
-//		for (int i = 0; i < values.size(); i++)
-//		{
-//			a.put(values.get(i));
-//		}
-//		if (!values.isEmpty())
-//		{
-//			editor.putString(key, a.toString());
-//		} else
-//		{
-//			editor.putString(key, null);
-//		}
-//		editor.commit();
-//	}
+	// public static void setPreferenceArray(Context context, String key,
+	// ArrayList<String> values)
+	// {
+	// SharedPreferences prefs = PreferenceManager
+	// .getDefaultSharedPreferences(context);
+	// SharedPreferences.Editor editor = prefs.edit();
+	// JSONArray a = new JSONArray();
+	// for (int i = 0; i < values.size(); i++)
+	// {
+	// a.put(values.get(i));
+	// }
+	// if (!values.isEmpty())
+	// {
+	// editor.putString(key, a.toString());
+	// } else
+	// {
+	// editor.putString(key, null);
+	// }
+	// editor.commit();
+	// }
 
-//	public static ArrayList<String> getPreferenceArray(Context context,
-//			String key)
-//	{
-//		SharedPreferences prefs = PreferenceManager
-//				.getDefaultSharedPreferences(context);
-//		String json = prefs.getString(key, null);
-//		ArrayList<String> arrayList = new ArrayList<String>();
-//		if (json != null)
-//		{
-//			try
-//			{
-//				JSONArray jsonArray = new JSONArray(json);
-//				for (int i = 0; i < jsonArray.length(); i++)
-//				{
-//					String url = jsonArray.optString(i);
-//					arrayList.add(url);
-//				}
-//			} catch (JSONException e)
-//			{
-//				e.printStackTrace();
-//			}
-//		}
-//		return arrayList;
-//	}
+	// public static ArrayList<String> getPreferenceArray(Context context,
+	// String key)
+	// {
+	// SharedPreferences prefs = PreferenceManager
+	// .getDefaultSharedPreferences(context);
+	// String json = prefs.getString(key, null);
+	// ArrayList<String> arrayList = new ArrayList<String>();
+	// if (json != null)
+	// {
+	// try
+	// {
+	// JSONArray jsonArray = new JSONArray(json);
+	// for (int i = 0; i < jsonArray.length(); i++)
+	// {
+	// String url = jsonArray.optString(i);
+	// arrayList.add(url);
+	// }
+	// } catch (JSONException e)
+	// {
+	// e.printStackTrace();
+	// }
+	// }
+	// return arrayList;
+	// }
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -331,7 +326,10 @@ public class HomeActivity extends FragmentActivity implements
 			// below) with the page number as its lone argument.
 			Fragment fragment = new SectionFragment();
 			Bundle args = new Bundle();
-			args.putInt(SectionFragment.ARG_SECTION_NUMBER, position + 1);
+			String title = getPageTitle(position).toString();
+			args.putString("meters", metersJson);
+			args.putString(SectionFragment.ARG_SECTION_TITLE, title);
+			//args.putInt(SectionFragment.ARG_SECTION_TITLE, position + 1);
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -367,12 +365,18 @@ public class HomeActivity extends FragmentActivity implements
 		 * The fragment argument representing the section number for this
 		 * fragment.
 		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
+		public static final String ARG_SECTION_TITLE = "section_title";
 
 		public SectionFragment()
 		{
 		}
 
+		String strJArrayStrom;
+		String strJArrayWasser;
+		String strJArrayGas;
+		String strJArrayOel;
+		
+		String meterJson;
 		ListView meterListView;
 		ArrayList<MeterOverview> meterList;
 		AdapterView.AdapterContextMenuInfo info;
@@ -384,9 +388,150 @@ public class HomeActivity extends FragmentActivity implements
 			View rootView = inflater.inflate(R.layout.list_meter_overview,
 					container, false);
 
+			meterJson = (getArguments().getString("meters"));
+
+			try
+			{
+				JSONObject jsonObj = new JSONObject(meterJson);
+
+				JSONArray jArray = jsonObj.getJSONArray("items");
+				JSONArray jArrayStrom = new JSONArray();
+				JSONArray jArrayGas = new JSONArray();
+				JSONArray jArrayOEL = new JSONArray();
+				JSONArray jArrayWASSER = new JSONArray();
+
+				for (int i = 0; i < jArray.length(); i++)
+				{
+
+					JSONObject tempJsonObject = jArray.getJSONObject(i);
+					// Pulling items to seperate arrays
+					if (tempJsonObject.getString("type").equals("STROM"))
+					{
+						jArrayStrom.put(tempJsonObject);
+					} else if (tempJsonObject.getString("type").equals("GAS"))
+					{
+						jArrayGas.put(tempJsonObject);
+					} else if (tempJsonObject.getString("type")
+							.equals("WASSER"))
+					{
+						jArrayWASSER.put(tempJsonObject);
+					} else if (tempJsonObject.getString("type").equals("OEL"))
+					{
+						jArrayOEL.put(tempJsonObject);
+					}
+				}
+				strJArrayStrom = jArrayStrom.toString();
+				strJArrayWasser = jArrayWASSER.toString();
+				strJArrayGas = jArrayGas.toString();
+				strJArrayOel = jArrayOEL.toString();
+
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
+			}		
+			
+			// get objects to fill listview
 			meterListView = (ListView) rootView.findViewById(R.id.MeterList);
 
 			meterList = new ArrayList<MeterOverview>();
+			
+			Log.d("ARG", getArguments().getString(ARG_SECTION_TITLE));
+			
+			if (getArguments().getString(ARG_SECTION_TITLE).equals(
+					MeterTypes.STROM.name()))
+			{
+				try
+				{
+					JSONArray jArray = new JSONArray(strJArrayStrom);
+					
+					for (int i = 0; i < jArray.length(); i++)
+					{
+						JSONObject tempJsonObject = jArray.getJSONObject(i);
+						
+						MeterOverview meter;
+						meter = new MeterOverview();
+						meter.setIcon(R.drawable.content_new);
+						meter.setName(tempJsonObject.getString("name"));
+						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
+						meter.setDate(tempJsonObject.getString("lastCountDate"));
+						meterList.add(meter);
+					}
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+			} else if (getArguments().getString(ARG_SECTION_TITLE).equals(
+					MeterTypes.WASSER.name()))
+			{
+				try
+				{
+					JSONArray jArray = new JSONArray(strJArrayWasser);
+					
+					for (int i = 0; i < jArray.length(); i++)
+					{
+						JSONObject tempJsonObject = jArray.getJSONObject(i);
+						
+						MeterOverview meter;
+						meter = new MeterOverview();
+						meter.setIcon(R.drawable.content_new);
+						meter.setName(tempJsonObject.getString("name"));
+						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
+						meter.setDate(tempJsonObject.getString("lastCountDate"));
+						meterList.add(meter);
+					}
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+			} else if (getArguments().getString(ARG_SECTION_TITLE).equals(
+					MeterTypes.GAS.name()))
+			{
+				try
+				{
+					JSONArray jArray = new JSONArray(strJArrayGas);
+					
+					for (int i = 0; i < jArray.length(); i++)
+					{
+						JSONObject tempJsonObject = jArray.getJSONObject(i);
+						
+						MeterOverview meter;
+						meter = new MeterOverview();
+						meter.setIcon(R.drawable.content_new);
+						meter.setName(tempJsonObject.getString("name"));
+						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
+						meter.setDate(tempJsonObject.getString("lastCountDate"));
+						meterList.add(meter);
+					}
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+			} else if (getArguments().getString(ARG_SECTION_TITLE).equals(
+					MeterTypes.OEL.name()))
+			{
+				try
+				{
+					JSONArray jArray = new JSONArray(strJArrayOel);
+					
+					for (int i = 0; i < jArray.length(); i++)
+					{
+						JSONObject tempJsonObject = jArray.getJSONObject(i);
+						
+						MeterOverview meter;
+						meter = new MeterOverview();
+						meter.setIcon(R.drawable.content_new);
+						meter.setName(tempJsonObject.getString("name"));
+						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
+						meter.setDate(tempJsonObject.getString("lastCountDate"));
+						meterList.add(meter);
+					}
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+			}
+
+			
 
 			// Dummy Einträge
 			MeterOverview meter;
@@ -411,9 +556,8 @@ public class HomeActivity extends FragmentActivity implements
 			meter.setDate("01.01.2013");
 			meterList.add(meter);
 
-			meterListView.setAdapter(new CustomAdapter(meterList, getActivity()));
-
-			// new EndpointsTask().execute(getActivity());
+			meterListView
+					.setAdapter(new CustomAdapter(meterList, getActivity()));
 
 			return rootView;
 		}
@@ -451,7 +595,5 @@ public class HomeActivity extends FragmentActivity implements
 			return (long) 0;
 		}
 	}
-	
-	
 
 }
