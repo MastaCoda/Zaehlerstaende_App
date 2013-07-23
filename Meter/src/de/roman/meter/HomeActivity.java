@@ -16,13 +16,18 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.jackson.JacksonFactory;
 
+import de.roman.meter.metrendpoint.Metrendpoint;
+import de.roman.meter.metrendpoint.model.MeterCountCollection;
 import de.roman.meter.userendpoint.Userendpoint;
+import de.roman.meter.userendpoint.model.MeterCollection;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,6 +52,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 @SuppressLint("SimpleDateFormat")
 public class HomeActivity extends FragmentActivity implements
@@ -73,12 +79,7 @@ public class HomeActivity extends FragmentActivity implements
 	 */
 	SharedPreferences settings;
 	Long userId;
-	
-//	Spinner spinCat;
-//	EditText edtTxtName;
-//	Spinner spinUnit;
-//	EditText edtTxtCmnt;
-//	
+
 	String accountName;
 
 	Intent welcomeIntent;
@@ -91,21 +92,15 @@ public class HomeActivity extends FragmentActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-		
-//		spinCat = (Spinner) findViewById(R.id.spinCategory);
-//		edtTxtName = (EditText) findViewById(R.id.edTMeterName);
-//		spinUnit = (Spinner) findViewById(R.id.spinUnit);
-//		edtTxtCmnt = (EditText) findViewById(R.id.edTComment);
-		
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// get saved User Id
-		settings = PreferenceManager.getDefaultSharedPreferences (this);
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		userId = settings.getLong("UserId", 0);
-		
+
 		welcomeIntent = getIntent();
 		metersJson = welcomeIntent.getStringExtra("meters");
 
@@ -167,7 +162,18 @@ public class HomeActivity extends FragmentActivity implements
 				alertDialogCateg.show();
 				return true;
 			case R.id.refresh:
-				
+				int index = mViewPager.getCurrentItem();
+				Fragment fragment = mSectionsPagerAdapter.getItem(index);
+
+//				Bundle args = new Bundle();
+//				args.putString("meters", metersJson);
+//				fragment.setArguments(args);
+//				
+//				fragment.on
+				new RefreshTask().execute(this);
+
+				int x = 0;
+				x = x + 1;
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -206,29 +212,32 @@ public class HomeActivity extends FragmentActivity implements
 		// Pass null as the parent view because its going in the dialog layout
 		final View view = inflater.inflate(R.layout.dialog_add_meter, null);
 		builder.setView(view);
-		
+
 		final Spinner spinCat = (Spinner) view.findViewById(R.id.spinCategory);
-		final EditText edtTxtName = (EditText) view.findViewById(R.id.edTMeterName);
+		final EditText edtTxtName = (EditText) view
+				.findViewById(R.id.edTMeterName);
 		final Spinner spinUnit = (Spinner) view.findViewById(R.id.spinUnit);
-		final EditText edtTxtCmnt = (EditText) view.findViewById(R.id.edTComment);
-		
-				builder.setPositiveButton(R.string.dialog_add_meter_save,
-						new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog, int id)
-							{
-								
-								// get data from dialog elements
-								String strCateg = spinCat.getSelectedItem().toString();
-								String strName = edtTxtName.getText().toString();
-								String strUnit = spinUnit.getSelectedItem().toString();
-								String strCmnt = edtTxtCmnt.getText().toString();
-								
-								new InsertMeterTask(strName, strCmnt, strCateg, strUnit, userId).execute(getApplicationContext());
-							}
-						})
-				.setNegativeButton(R.string.dialog_add_meter_cancel, null);
+		final EditText edtTxtCmnt = (EditText) view
+				.findViewById(R.id.edTComment);
+
+		builder.setPositiveButton(R.string.dialog_add_meter_save,
+				new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int id)
+					{
+
+						// get data from dialog elements
+						String strCateg = spinCat.getSelectedItem().toString();
+						String strName = edtTxtName.getText().toString();
+						String strUnit = spinUnit.getSelectedItem().toString();
+						String strCmnt = edtTxtCmnt.getText().toString();
+
+						new InsertMeterTask(strName, strCmnt, strCateg,
+								strUnit, userId)
+								.execute(getApplicationContext());
+					}
+				}).setNegativeButton(R.string.dialog_add_meter_cancel, null);
 		return builder.create();
 	}
 
@@ -251,7 +260,6 @@ public class HomeActivity extends FragmentActivity implements
 		AlertDialog dialog = builder.create();
 		return dialog;
 	}
-
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -313,9 +321,7 @@ public class HomeActivity extends FragmentActivity implements
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_TITLE = "section_title";
-		
-		
-		
+
 		public SectionFragment()
 		{
 		}
@@ -325,22 +331,30 @@ public class HomeActivity extends FragmentActivity implements
 		String strJArrayGas;
 		String strJArrayOel;
 
-		String meterJson;		
+		String meterJson;
 		public static String meterJsonNew;
-		
+
 		ListView meterListView;
 		ArrayList<MeterOverview> meterList;
-		AdapterView.AdapterContextMenuInfo info;
+
+		// AdapterView.AdapterContextMenuInfo info;
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState)
-		{			
+		{
 			View rootView = inflater.inflate(R.layout.list_meter_overview,
 					container, false);
 
 			meterJson = (getArguments().getString("meters"));
 
+			seperateJsonArray(rootView, meterJson);
+
+			return rootView;
+		}
+
+		public void seperateJsonArray(View rootView, String meterJson)
+		{
 			try
 			{
 				JSONObject jsonObj = new JSONObject(meterJson);
@@ -410,33 +424,30 @@ public class HomeActivity extends FragmentActivity implements
 
 			}
 
-			// Dummy Einträge
-			// MeterOverview meter;
-			// meter = new MeterOverview();
-			// meter.setIcon(R.drawable.content_new);
-			// meter.setName("Wasser Ravensburg");
-			// meter.setSub("5000 " + getString(R.string.einheit_wasser));
-			// //meter.setDate("01.01.2013");
-			// meterList.add(meter);
-			//
-			// meter = new MeterOverview();
-			// meter.setIcon(R.drawable.content_new);
-			// meter.setName("Wasser Zingerle");
-			// meter.setSub("1005000 " + getString(R.string.einheit_wasser));
-			// //meter.setDate("01.01.2013");
-			// meterList.add(meter);
-			//
-			// meter = new MeterOverview();
-			// meter.setIcon(R.drawable.content_new);
-			// meter.setName("Wasser Kirchberg");
-			// meter.setSub("5000 " + getString(R.string.einheit_wasser));
-			// //meter.setDate("01.01.2013");
-			// meterList.add(meter);
-
 			meterListView
 					.setAdapter(new CustomAdapter(meterList, getActivity()));
 
-			return rootView;
+			
+			meterListView.setOnItemClickListener(new OnItemClickListener() {
+				   public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+					   Long lngUserId = meterList.get(position).userID;
+					   String strName = meterList.get(position).name;
+					   String strUnit = meterList.get(position).unit;
+					   Long meterId = meterList.get(position).meterID;
+					   int s = position;
+					   View b = v;
+					   long di = id;
+					   
+//					   HomeActivity activity = new HomeActivity();
+//					   HomeActivity.MeterCountTask meterCountTask = activity.new MeterCountTask(meterId, lngUserId);
+//					   meterCountTask.execute((Integer)null);
+					   
+					   
+					   //new MeterCountTask(meterId, lngUserId).execute((Integer) null);
+					   
+					   //meterCountTask = new MeterCountTask(meterId).execute();
+				   }
+		   });
 		}
 
 		public void setListEntries(String strJArrayMeterType)
@@ -453,10 +464,10 @@ public class HomeActivity extends FragmentActivity implements
 					meter = new MeterOverview();
 					meter.setIcon(R.drawable.content_new);
 					meter.setName(tempJsonObject.getString("name"));
-					MeterUnits unit = MeterUnits.valueOf(tempJsonObject.getString("unit"));
+					MeterUnits unit = MeterUnits.valueOf(tempJsonObject
+							.getString("unit"));
 					meter.setUnit(unit.toString());
-					meter.setCount(tempJsonObject
-							.getString("lastCount"));
+					meter.setCount(tempJsonObject.getString("lastCount"));
 					if (tempJsonObject.has("lastCountDate"))
 					{
 						try
@@ -471,12 +482,13 @@ public class HomeActivity extends FragmentActivity implements
 							e.printStackTrace();
 						}
 					}
-					
+
 					JSONObject keyObject = tempJsonObject.getJSONObject("key");
 					meter.setMeterID(keyObject.getLong("id"));
-					JSONObject parentKeyObect = keyObject.getJSONObject("parent");
+					JSONObject parentKeyObect = keyObject
+							.getJSONObject("parent");
 					meter.setUserID(parentKeyObect.getLong("id"));
-					
+
 					meterList.add(meter);
 				}
 			} catch (JSONException e)
@@ -494,8 +506,9 @@ public class HomeActivity extends FragmentActivity implements
 		public String unit;
 		public Long userId;
 		public Context c;
-		
-		public InsertMeterTask(String meterName, String meterComment, String meterType, String unit, Long userId)
+
+		public InsertMeterTask(String meterName, String meterComment,
+				String meterType, String unit, Long userId)
 		{
 			this.meterName = meterName;
 			this.meterComment = meterComment;
@@ -503,8 +516,8 @@ public class HomeActivity extends FragmentActivity implements
 			this.unit = unit;
 			this.userId = userId;
 		}
-		
-		protected Long doInBackground(Context...contexts)
+
+		protected Long doInBackground(Context... contexts)
 		{
 			Userendpoint.Builder endpointBuilder = new Userendpoint.Builder(
 					AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
@@ -519,24 +532,146 @@ public class HomeActivity extends FragmentActivity implements
 
 			try
 			{
-				endpoint.insertMeterToUser(meterComment, meterName, meterType, unit, userId) .execute();
+				endpoint.insertMeterToUser(meterComment, meterName, meterType,
+						unit, userId).execute();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 			c = contexts[0];
-			
 
 			return (long) 0;
 		}
 
 		@Override
-		protected void  onPostExecute (Long result)  {
-			Toast toast = Toast.makeText(c, "Your new meter has been added.\nPress refresh button to see result", Toast.LENGTH_LONG);
-			toast.show();         
-		       
+		protected void onPostExecute(Long result)
+		{
+			Toast toast = Toast
+					.makeText(
+							c,
+							"Your new meter has been added.\nPress refresh button to see result",
+							Toast.LENGTH_LONG);
+			toast.show();
+
 		}
 
 	}
+
+	public class RefreshTask extends AsyncTask<Context, Integer, String>
+	{
+
+		ProgressDialog dialog;
+		String meters;
+
+		@Override
+		protected void onPreExecute()
+		{
+			// Setup Progress Dialog
+			dialog = new ProgressDialog(HomeActivity.this);
+			dialog.setCancelable(false);
+			dialog.setMessage("Refreshing data!\nPlease wait...");
+			dialog.show();
+		}
+
+		protected String doInBackground(Context... contexts)
+		{
+			Userendpoint.Builder endpointBuilder = new Userendpoint.Builder(
+					AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
+					new HttpRequestInitializer()
+					{
+						public void initialize(HttpRequest httpRequest)
+						{
+						}
+					});
+			Userendpoint endpoint = CloudEndpointUtils.updateBuilder(
+					endpointBuilder).build();
+			try
+			{
+
+				// get meter list of user
+				MeterCollection meterList = endpoint.getMeterListWithUserId(
+						userId).execute();
+				meters = meterList.toString();
+
+				// dismiss progress dialog
+				dialog.dismiss();
+
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			return meters;
+		}
+
+		@Override
+		protected void onPostExecute(String meters)
+		{
+			metersJson = meters;
+
+		}
+	}
+	
+	public class MeterCountTask extends AsyncTask<Integer, Integer, String>
+	{
+
+		ProgressDialog dialog;
+		String metersCounts;
+		Long meterId;
+		Long lngUserId;
+		
+		public MeterCountTask(Long meterId, Long lngUserId)
+		{
+			this.meterId = meterId;
+			this.lngUserId = lngUserId;
+		}
+
+		@Override
+		protected void onPreExecute()
+		{
+			// Setup Progress Dialog
+//			dialog = new ProgressDialog(get);
+//			dialog.setCancelable(false);
+//			dialog.setMessage("Loading MeterCounts!\nPlease wait...");
+//			dialog.show();
+		}
+
+		protected String doInBackground(Integer... contexts)
+		{
+			Metrendpoint.Builder endpointBuilder = new Metrendpoint.Builder(
+					AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
+					new HttpRequestInitializer()
+					{
+						public void initialize(HttpRequest httpRequest)
+						{
+						}
+					});
+			Metrendpoint endpoint = CloudEndpointUtils.updateBuilder(
+					endpointBuilder).build();
+			try
+			{
+
+				// get meter list of user
+				MeterCountCollection meterCountList = endpoint.getMeterCountListWithUserId(meterId, lngUserId).execute();
+				metersCounts = meterCountList.toString();
+
+				
+
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			return metersCounts;
+		}
+
+		@Override
+		protected void onPostExecute(String meterCounts)
+		{
+			// dismiss progress dialog
+			dialog.dismiss();
+
+		}
+	}
+	
+	
 
 }
