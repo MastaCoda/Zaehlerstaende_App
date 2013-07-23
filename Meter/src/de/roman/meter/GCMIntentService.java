@@ -1,18 +1,18 @@
 package de.roman.meter;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-
-import com.google.android.gcm.GCMBaseIntentService;
-import com.google.android.gcm.GCMRegistrar;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.json.jackson.JacksonFactory;
+//import java.io.IOException;
+//import java.net.URLEncoder;
+//
+//import android.content.Context;
+//import android.content.Intent;
+//import android.util.Log;
+//
+//import com.google.android.gcm.GCMBaseIntentService;
+//import com.google.android.gcm.GCMRegistrar;
+//import com.google.api.client.extensions.android.http.AndroidHttp;
+//import com.google.api.client.http.HttpRequest;
+//import com.google.api.client.http.HttpRequestInitializer;
+//import com.google.api.client.json.jackson.JacksonFactory;
 
 //import de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint;
 //import de.roman.meter.deviceinfoendpoint.model.DeviceInfo;

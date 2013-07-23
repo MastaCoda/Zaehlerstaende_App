@@ -2,16 +2,15 @@
 <resources>
     <string-array name="categories">
         <item>STROM</item>
-        <item>WASSER</item>
         <item>GAS</item>
+        <item>WASSER</item>
         <item>OEL</item>
     </string-array>
     
     <string-array name="meter_units">
-        <item>kWh</item>
-        <item>m³</item>
-        <item>Liter</item>
+        <item>KWH</item>
+        <item>LITER</item>
+        <item>CUBIC</item>
     </string-array>
-    
     
 </resources>

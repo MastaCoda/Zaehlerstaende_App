@@ -1,30 +1,35 @@
 package de.roman.meter;
 
+import java.util.Date;
+
 public class MeterOverview
 {
 	int icon;
-	String from;
-	String sub;
-	String date;
+	String name;
+	String count;
+	Date date;
+	Long userID;
+	Long meterID;
+	String unit;
 
 	public String getName()
 	{
-		return from;
+		return name;
 	}
 
-	public void setName(String from)
+	public void setName(String name)
 	{
-		this.from = from;
+		this.name = name;
 	}
 
-	public String getSub()
+	public String getCount()
 	{
-		return sub;
+		return count;
 	}
 
-	public void setSub(String sub)
+	public void setCount(String count)
 	{
-		this.sub = sub;
+		this.count = count;
 	}
 
 	public int getIcon()
@@ -37,14 +42,43 @@ public class MeterOverview
 		this.icon = icon;
 	}
 
-	public String getDate()
+	public Date getDate()
 	{
 		return date;
 	}
 
-	public void setDate(String date)
+	public void setDate(Date date)
 	{
 		this.date = date;
 	}
 
+	public Long getUserID()
+	{
+		return userID;
+	}
+
+	public void setUserID(Long userID)
+	{
+		this.userID = userID;
+	}
+
+	public Long getMeterID()
+	{
+		return meterID;
+	}
+
+	public void setMeterID(Long meterID)
+	{
+		this.meterID = meterID;
+	}
+
+	public String getUnit()
+	{
+		return unit;
+	}
+
+	public void setUnit(String unit)
+	{
+		this.unit = unit;
+	}
 }

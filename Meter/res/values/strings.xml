@@ -4,10 +4,12 @@
     <string name="app_name">Meter</string>
     <string name="menu_settings">Settings</string>
     
-    <string name="action_add_meter">Zähler hinzufügen</string>
+    <string name="action_add_meter">Add Meter</string>
     <string name="action_info">Info</string>
+    <string name="action_add">Add</string>
+    <string name="action_refresh">Refresh</string>
     
-    <string name="desc">Zählerstand erfassen</string>
+    <string name="desc">Save Meter Count</string>
     
     <string name="welcome">Welcome!</string>
     
@@ -20,28 +22,28 @@
     <string name="einheit_strom">kwh</string>
     
     <!-- Add Meter Dialog -->
-    <string name="dialog_add_meter_save">Speichern</string>
-    <string name="dialog_add_meter_cancel">Abbrechen</string>
-    <string name="dialog_title">Zähler hinzufügen</string>    
-    <string name="tvCateg">Kategorie:</string>
+    <string name="dialog_add_meter_save">Save</string>
+    <string name="dialog_add_meter_cancel">Cancel</string>
+    <string name="dialog_title">Add Meter</string>    
+    <string name="tvCateg">Category:</string>
     <string name="tvMeterName">Name:</string>
-    <string name="tvUnit">Einheit:</string>
-    <string name="tvComment">Kommentar:</string>
+    <string name="tvUnit">Unit:</string>
+    <string name="tvComment">Comment:</string>
     
     <!-- Add Meter Category Dialog -->
     <string name="infoText">Meter Tracker \nProjektarbeit\nRoman Schneider</string>
-    <string name="dialog_info_cancel">Schliessen</string>
+    <string name="dialog_info_cancel">Close</string>
     <string name="dialog_info_title">Info</string>
     
-    <string name="dialog_add_meter_categ_tvExistUnits">Einheiten:</string>
-    <string name="dialog_add_meter_categ_tvNewUnit">Neue Einheit:</string>
+    <string name="dialog_add_meter_categ_tvExistUnits">Units:</string>
+    <string name="dialog_add_meter_categ_tvNewUnit">New Unit:</string>
        
     
     <!-- New Meter Count Dialog -->
-    <string name="dialog_add_count_title">Zählerstand erfassen</string>
-    <string name="dialog_add_count_cancel">Abbrechen</string>
-    <string name="dialog_add_count_save">Erfassen</string>
-    <string name="dialog_add_count_hint">Zählerstand</string>
+    <string name="dialog_add_count_title">Save Meter Count</string>
+    <string name="dialog_add_count_cancel">Cancel</string>
+    <string name="dialog_add_count_save">Save</string>
+    <string name="dialog_add_count_hint">Count</string>
     
     
     

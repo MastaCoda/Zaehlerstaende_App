@@ -1,34 +1,28 @@
 package de.roman.meter;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.regex.Pattern;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.gson.JsonObject;
 
 import de.roman.meter.userendpoint.Userendpoint;
-import de.roman.meter.userendpoint.model.User;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,24 +35,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.util.Patterns;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+@SuppressLint("SimpleDateFormat")
 public class HomeActivity extends FragmentActivity implements
 		ActionBar.TabListener
 {
@@ -82,6 +72,13 @@ public class HomeActivity extends FragmentActivity implements
 	 * Preference object where the app stores the name of the preferred user.
 	 */
 	SharedPreferences settings;
+	Long userId;
+	
+//	Spinner spinCat;
+//	EditText edtTxtName;
+//	Spinner spinUnit;
+//	EditText edtTxtCmnt;
+//	
 	String accountName;
 
 	Intent welcomeIntent;
@@ -94,11 +91,21 @@ public class HomeActivity extends FragmentActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		
+//		spinCat = (Spinner) findViewById(R.id.spinCategory);
+//		edtTxtName = (EditText) findViewById(R.id.edTMeterName);
+//		spinUnit = (Spinner) findViewById(R.id.spinUnit);
+//		edtTxtCmnt = (EditText) findViewById(R.id.edTComment);
+		
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+		// get saved User Id
+		settings = PreferenceManager.getDefaultSharedPreferences (this);
+		userId = settings.getLong("UserId", 0);
+		
 		welcomeIntent = getIntent();
 		metersJson = welcomeIntent.getStringExtra("meters");
 
@@ -135,8 +142,6 @@ public class HomeActivity extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
-
-		new EndpointsTask().execute(getApplicationContext());
 	}
 
 	@Override
@@ -153,13 +158,16 @@ public class HomeActivity extends FragmentActivity implements
 		// Handle item selection
 		switch (item.getItemId())
 		{
-			case R.id.action_add_meter:
+			case R.id.add:
 				Dialog alertDialog = addMeter();
 				alertDialog.show();
 				return true;
 			case R.id.info:
 				Dialog alertDialogCateg = infoDialog();
 				alertDialogCateg.show();
+				return true;
+			case R.id.refresh:
+				
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -196,15 +204,28 @@ public class HomeActivity extends FragmentActivity implements
 		builder.setTitle(R.string.dialog_title);
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout
-		builder.setView(inflater.inflate(R.layout.dialog_add_meter, null))
-				.setPositiveButton(R.string.dialog_add_meter_save,
+		final View view = inflater.inflate(R.layout.dialog_add_meter, null);
+		builder.setView(view);
+		
+		final Spinner spinCat = (Spinner) view.findViewById(R.id.spinCategory);
+		final EditText edtTxtName = (EditText) view.findViewById(R.id.edTMeterName);
+		final Spinner spinUnit = (Spinner) view.findViewById(R.id.spinUnit);
+		final EditText edtTxtCmnt = (EditText) view.findViewById(R.id.edTComment);
+		
+				builder.setPositiveButton(R.string.dialog_add_meter_save,
 						new DialogInterface.OnClickListener()
 						{
 							@Override
 							public void onClick(DialogInterface dialog, int id)
 							{
-								// Zähler anlegen und übertragen
-								// update listview
+								
+								// get data from dialog elements
+								String strCateg = spinCat.getSelectedItem().toString();
+								String strName = edtTxtName.getText().toString();
+								String strUnit = spinUnit.getSelectedItem().toString();
+								String strCmnt = edtTxtCmnt.getText().toString();
+								
+								new InsertMeterTask(strName, strCmnt, strCateg, strUnit, userId).execute(getApplicationContext());
 							}
 						})
 				.setNegativeButton(R.string.dialog_add_meter_cancel, null);
@@ -231,80 +252,6 @@ public class HomeActivity extends FragmentActivity implements
 		return dialog;
 	}
 
-	// checks whether the category or unit already exists
-	// public boolean checkStringDuplicate(String checkString, int typ)
-	// {
-	// boolean alreadyExists = false;
-	// String[] array;
-	// switch (typ)
-	// {
-	// case 0:
-	// array = getResources().getStringArray(R.array.categories);
-	// break;
-	// case 1:
-	// array = getResources().getStringArray(R.array.meter_units);
-	// break;
-	// default:
-	// array = new String[]
-	// { "default" };
-	// }
-	//
-	// for (int i = 0; i <= array.length; i++)
-	// {
-	// if (array[i].equals(checkString))
-	// {
-	// alreadyExists = true;
-	// }
-	// }
-	//
-	// return alreadyExists;
-	// }
-
-	// public static void setPreferenceArray(Context context, String key,
-	// ArrayList<String> values)
-	// {
-	// SharedPreferences prefs = PreferenceManager
-	// .getDefaultSharedPreferences(context);
-	// SharedPreferences.Editor editor = prefs.edit();
-	// JSONArray a = new JSONArray();
-	// for (int i = 0; i < values.size(); i++)
-	// {
-	// a.put(values.get(i));
-	// }
-	// if (!values.isEmpty())
-	// {
-	// editor.putString(key, a.toString());
-	// } else
-	// {
-	// editor.putString(key, null);
-	// }
-	// editor.commit();
-	// }
-
-	// public static ArrayList<String> getPreferenceArray(Context context,
-	// String key)
-	// {
-	// SharedPreferences prefs = PreferenceManager
-	// .getDefaultSharedPreferences(context);
-	// String json = prefs.getString(key, null);
-	// ArrayList<String> arrayList = new ArrayList<String>();
-	// if (json != null)
-	// {
-	// try
-	// {
-	// JSONArray jsonArray = new JSONArray(json);
-	// for (int i = 0; i < jsonArray.length(); i++)
-	// {
-	// String url = jsonArray.optString(i);
-	// arrayList.add(url);
-	// }
-	// } catch (JSONException e)
-	// {
-	// e.printStackTrace();
-	// }
-	// }
-	// return arrayList;
-	// }
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -329,7 +276,7 @@ public class HomeActivity extends FragmentActivity implements
 			String title = getPageTitle(position).toString();
 			args.putString("meters", metersJson);
 			args.putString(SectionFragment.ARG_SECTION_TITLE, title);
-			//args.putInt(SectionFragment.ARG_SECTION_TITLE, position + 1);
+			// args.putInt(SectionFragment.ARG_SECTION_TITLE, position + 1);
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -366,7 +313,9 @@ public class HomeActivity extends FragmentActivity implements
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_TITLE = "section_title";
-
+		
+		
+		
 		public SectionFragment()
 		{
 		}
@@ -375,8 +324,10 @@ public class HomeActivity extends FragmentActivity implements
 		String strJArrayWasser;
 		String strJArrayGas;
 		String strJArrayOel;
+
+		String meterJson;		
+		public static String meterJsonNew;
 		
-		String meterJson;
 		ListView meterListView;
 		ArrayList<MeterOverview> meterList;
 		AdapterView.AdapterContextMenuInfo info;
@@ -384,7 +335,7 @@ public class HomeActivity extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState)
-		{
+		{			
 			View rootView = inflater.inflate(R.layout.list_meter_overview,
 					container, false);
 
@@ -428,146 +379,133 @@ public class HomeActivity extends FragmentActivity implements
 			} catch (JSONException e)
 			{
 				e.printStackTrace();
-			}		
-			
+			}
+
 			// get objects to fill listview
 			meterListView = (ListView) rootView.findViewById(R.id.MeterList);
 
 			meterList = new ArrayList<MeterOverview>();
-			
+
 			Log.d("ARG", getArguments().getString(ARG_SECTION_TITLE));
-			
+
 			if (getArguments().getString(ARG_SECTION_TITLE).equals(
 					MeterTypes.STROM.name()))
 			{
-				try
-				{
-					JSONArray jArray = new JSONArray(strJArrayStrom);
-					
-					for (int i = 0; i < jArray.length(); i++)
-					{
-						JSONObject tempJsonObject = jArray.getJSONObject(i);
-						
-						MeterOverview meter;
-						meter = new MeterOverview();
-						meter.setIcon(R.drawable.content_new);
-						meter.setName(tempJsonObject.getString("name"));
-						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
-						meter.setDate(tempJsonObject.getString("lastCountDate"));
-						meterList.add(meter);
-					}
-				} catch (JSONException e)
-				{
-					e.printStackTrace();
-				}
+				setListEntries(strJArrayStrom);
+
 			} else if (getArguments().getString(ARG_SECTION_TITLE).equals(
 					MeterTypes.WASSER.name()))
 			{
-				try
-				{
-					JSONArray jArray = new JSONArray(strJArrayWasser);
-					
-					for (int i = 0; i < jArray.length(); i++)
-					{
-						JSONObject tempJsonObject = jArray.getJSONObject(i);
-						
-						MeterOverview meter;
-						meter = new MeterOverview();
-						meter.setIcon(R.drawable.content_new);
-						meter.setName(tempJsonObject.getString("name"));
-						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
-						meter.setDate(tempJsonObject.getString("lastCountDate"));
-						meterList.add(meter);
-					}
-				} catch (JSONException e)
-				{
-					e.printStackTrace();
-				}
+				setListEntries(strJArrayWasser);
+
 			} else if (getArguments().getString(ARG_SECTION_TITLE).equals(
 					MeterTypes.GAS.name()))
 			{
-				try
-				{
-					JSONArray jArray = new JSONArray(strJArrayGas);
-					
-					for (int i = 0; i < jArray.length(); i++)
-					{
-						JSONObject tempJsonObject = jArray.getJSONObject(i);
-						
-						MeterOverview meter;
-						meter = new MeterOverview();
-						meter.setIcon(R.drawable.content_new);
-						meter.setName(tempJsonObject.getString("name"));
-						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
-						meter.setDate(tempJsonObject.getString("lastCountDate"));
-						meterList.add(meter);
-					}
-				} catch (JSONException e)
-				{
-					e.printStackTrace();
-				}
+				setListEntries(strJArrayGas);
+
 			} else if (getArguments().getString(ARG_SECTION_TITLE).equals(
 					MeterTypes.OEL.name()))
 			{
-				try
-				{
-					JSONArray jArray = new JSONArray(strJArrayOel);
-					
-					for (int i = 0; i < jArray.length(); i++)
-					{
-						JSONObject tempJsonObject = jArray.getJSONObject(i);
-						
-						MeterOverview meter;
-						meter = new MeterOverview();
-						meter.setIcon(R.drawable.content_new);
-						meter.setName(tempJsonObject.getString("name"));
-						meter.setSub(String.valueOf(tempJsonObject.getLong("lastCount")));
-						meter.setDate(tempJsonObject.getString("lastCountDate"));
-						meterList.add(meter);
-					}
-				} catch (JSONException e)
-				{
-					e.printStackTrace();
-				}
+				setListEntries(strJArrayOel);
+
 			}
 
-			
-
 			// Dummy Einträge
-			MeterOverview meter;
-			meter = new MeterOverview();
-			meter.setIcon(R.drawable.content_new);
-			meter.setName("Wasser Ravensburg");
-			meter.setSub("5000 " + getString(R.string.einheit_wasser));
-			meter.setDate("01.01.2013");
-			meterList.add(meter);
-
-			meter = new MeterOverview();
-			meter.setIcon(R.drawable.content_new);
-			meter.setName("Wasser Zingerle");
-			meter.setSub("1005000 " + getString(R.string.einheit_wasser));
-			meter.setDate("01.01.2013");
-			meterList.add(meter);
-
-			meter = new MeterOverview();
-			meter.setIcon(R.drawable.content_new);
-			meter.setName("Wasser Kirchberg");
-			meter.setSub("5000 " + getString(R.string.einheit_wasser));
-			meter.setDate("01.01.2013");
-			meterList.add(meter);
+			// MeterOverview meter;
+			// meter = new MeterOverview();
+			// meter.setIcon(R.drawable.content_new);
+			// meter.setName("Wasser Ravensburg");
+			// meter.setSub("5000 " + getString(R.string.einheit_wasser));
+			// //meter.setDate("01.01.2013");
+			// meterList.add(meter);
+			//
+			// meter = new MeterOverview();
+			// meter.setIcon(R.drawable.content_new);
+			// meter.setName("Wasser Zingerle");
+			// meter.setSub("1005000 " + getString(R.string.einheit_wasser));
+			// //meter.setDate("01.01.2013");
+			// meterList.add(meter);
+			//
+			// meter = new MeterOverview();
+			// meter.setIcon(R.drawable.content_new);
+			// meter.setName("Wasser Kirchberg");
+			// meter.setSub("5000 " + getString(R.string.einheit_wasser));
+			// //meter.setDate("01.01.2013");
+			// meterList.add(meter);
 
 			meterListView
 					.setAdapter(new CustomAdapter(meterList, getActivity()));
 
 			return rootView;
 		}
+
+		public void setListEntries(String strJArrayMeterType)
+		{
+			try
+			{
+				JSONArray jArray = new JSONArray(strJArrayMeterType);
+
+				for (int i = 0; i < jArray.length(); i++)
+				{
+					JSONObject tempJsonObject = jArray.getJSONObject(i);
+
+					MeterOverview meter;
+					meter = new MeterOverview();
+					meter.setIcon(R.drawable.content_new);
+					meter.setName(tempJsonObject.getString("name"));
+					MeterUnits unit = MeterUnits.valueOf(tempJsonObject.getString("unit"));
+					meter.setUnit(unit.toString());
+					meter.setCount(tempJsonObject
+							.getString("lastCount"));
+					if (tempJsonObject.has("lastCountDate"))
+					{
+						try
+						{
+							String[] tempStrArryDate = tempJsonObject
+									.getString("lastCountDate").split("T");
+							Date tempDate = new SimpleDateFormat("yyyy-MM-dd")
+									.parse(tempStrArryDate[0]);
+							meter.setDate(tempDate);
+						} catch (ParseException e)
+						{
+							e.printStackTrace();
+						}
+					}
+					
+					JSONObject keyObject = tempJsonObject.getJSONObject("key");
+					meter.setMeterID(keyObject.getLong("id"));
+					JSONObject parentKeyObect = keyObject.getJSONObject("parent");
+					meter.setUserID(parentKeyObect.getLong("id"));
+					
+					meterList.add(meter);
+				}
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
-	public class EndpointsTask extends AsyncTask<Context, Integer, Long>
+	public class InsertMeterTask extends AsyncTask<Context, Integer, Long>
 	{
-		protected Long doInBackground(Context... contexts)
+		public String meterName;
+		public String meterComment;
+		public String meterType;
+		public String unit;
+		public Long userId;
+		public Context c;
+		
+		public InsertMeterTask(String meterName, String meterComment, String meterType, String unit, Long userId)
 		{
-
+			this.meterName = meterName;
+			this.meterComment = meterComment;
+			this.meterType = meterType;
+			this.unit = unit;
+			this.userId = userId;
+		}
+		
+		protected Long doInBackground(Context...contexts)
+		{
 			Userendpoint.Builder endpointBuilder = new Userendpoint.Builder(
 					AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
 					new HttpRequestInitializer()
@@ -578,22 +516,27 @@ public class HomeActivity extends FragmentActivity implements
 					});
 			Userendpoint endpoint = CloudEndpointUtils.updateBuilder(
 					endpointBuilder).build();
-			// try
-			// {
-			// // UserEntity user = new UserEntity().setName("Silllllli");
-			// // //user.setId("3");
-			// // //String noteID = new Date().toString();
-			// // //user.setName("Roman");
-			// // user.setPassword("lkmlkmlsdf");
-			// // //user.setEmailAddress("E-Mail Address");
-			// // UserEntity result =
-			// endpoint.insertUser(user).execute();//insertUser(user).execute();
-			// } //catch (IOException e)
-			// //{
-			// // e.printStackTrace();
-			// //}
+
+			try
+			{
+				endpoint.insertMeterToUser(meterComment, meterName, meterType, unit, userId) .execute();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			c = contexts[0];
+			
+
 			return (long) 0;
 		}
+
+		@Override
+		protected void  onPostExecute (Long result)  {
+			Toast toast = Toast.makeText(c, "Your new meter has been added.\nPress refresh button to see result", Toast.LENGTH_LONG);
+			toast.show();         
+		       
+		}
+
 	}
 
 }
