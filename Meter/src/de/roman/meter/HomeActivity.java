@@ -162,14 +162,14 @@ public class HomeActivity extends FragmentActivity implements
 				alertDialogCateg.show();
 				return true;
 			case R.id.refresh:
-				int index = mViewPager.getCurrentItem();
-				Fragment fragment = mSectionsPagerAdapter.getItem(index);
+				// int index = mViewPager.getCurrentItem();
+				// Fragment fragment = mSectionsPagerAdapter.getItem(index);
 
-//				Bundle args = new Bundle();
-//				args.putString("meters", metersJson);
-//				fragment.setArguments(args);
-//				
-//				fragment.on
+				// Bundle args = new Bundle();
+				// args.putString("meters", metersJson);
+				// fragment.setArguments(args);
+				//
+				// fragment.on
 				new RefreshTask().execute(this);
 
 				int x = 0;
@@ -427,27 +427,26 @@ public class HomeActivity extends FragmentActivity implements
 			meterListView
 					.setAdapter(new CustomAdapter(meterList, getActivity()));
 
-			
-			meterListView.setOnItemClickListener(new OnItemClickListener() {
-				   public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-					   Long lngUserId = meterList.get(position).userID;
-					   String strName = meterList.get(position).name;
-					   String strUnit = meterList.get(position).unit;
-					   Long meterId = meterList.get(position).meterID;
-					   int s = position;
-					   View b = v;
-					   long di = id;
-					   
-//					   HomeActivity activity = new HomeActivity();
-//					   HomeActivity.MeterCountTask meterCountTask = activity.new MeterCountTask(meterId, lngUserId);
-//					   meterCountTask.execute((Integer)null);
-					   
-					   
-					   //new MeterCountTask(meterId, lngUserId).execute((Integer) null);
-					   
-					   //meterCountTask = new MeterCountTask(meterId).execute();
-				   }
-		   });
+			final Activity activityContext = getActivity();
+
+			meterListView.setOnItemClickListener(new OnItemClickListener()
+			{
+				public void onItemClick(AdapterView<?> a, View v, int position,
+						long id)
+				{
+					Long lngUserId = meterList.get(position).userID;
+					Long meterId = meterList.get(position).meterID;
+					String name = meterList.get(position).name;
+					String type = meterList.get(position).type;
+					String unit = meterList.get(position).unit;
+
+					HomeActivity activity = new HomeActivity();
+					HomeActivity.MeterCountTask meterCountTask = activity.new MeterCountTask(
+							meterId, lngUserId, activityContext, name, type,
+							unit);
+					meterCountTask.execute((Integer) null);
+				}
+			});
 		}
 
 		public void setListEntries(String strJArrayMeterType)
@@ -467,6 +466,9 @@ public class HomeActivity extends FragmentActivity implements
 					MeterUnits unit = MeterUnits.valueOf(tempJsonObject
 							.getString("unit"));
 					meter.setUnit(unit.toString());
+					MeterTypes type = MeterTypes.valueOf(tempJsonObject
+							.getString("type"));
+					meter.setType(type.toString());
 					meter.setCount(tempJsonObject.getString("lastCount"));
 					if (tempJsonObject.has("lastCountDate"))
 					{
@@ -610,7 +612,7 @@ public class HomeActivity extends FragmentActivity implements
 
 		}
 	}
-	
+
 	public class MeterCountTask extends AsyncTask<Integer, Integer, String>
 	{
 
@@ -618,21 +620,30 @@ public class HomeActivity extends FragmentActivity implements
 		String metersCounts;
 		Long meterId;
 		Long lngUserId;
-		
-		public MeterCountTask(Long meterId, Long lngUserId)
+		Activity activity;
+		String name;
+		String type;
+		String unit;
+
+		public MeterCountTask(Long meterId, Long lngUserId, Activity activity,
+				String name, String type, String unit)
 		{
 			this.meterId = meterId;
 			this.lngUserId = lngUserId;
+			this.activity = activity;
+			this.name = name;
+			this.type = type;
+			this.unit = unit;
 		}
 
 		@Override
 		protected void onPreExecute()
 		{
 			// Setup Progress Dialog
-//			dialog = new ProgressDialog(get);
-//			dialog.setCancelable(false);
-//			dialog.setMessage("Loading MeterCounts!\nPlease wait...");
-//			dialog.show();
+			dialog = new ProgressDialog(activity);
+			dialog.setCancelable(false);
+			dialog.setMessage("Loading MeterCounts!\nPlease wait...");
+			dialog.show();
 		}
 
 		protected String doInBackground(Integer... contexts)
@@ -651,10 +662,10 @@ public class HomeActivity extends FragmentActivity implements
 			{
 
 				// get meter list of user
-				MeterCountCollection meterCountList = endpoint.getMeterCountListWithUserId(meterId, lngUserId).execute();
+				MeterCountCollection meterCountList = endpoint
+						.getMeterCountListWithUserId(meterId, lngUserId)
+						.execute();
 				metersCounts = meterCountList.toString();
-
-				
 
 			} catch (IOException e)
 			{
@@ -669,9 +680,25 @@ public class HomeActivity extends FragmentActivity implements
 			// dismiss progress dialog
 			dialog.dismiss();
 
+			if (meterCounts.startsWith("{\"kind"))
+			{
+				Toast toast = Toast
+						.makeText(
+								activity,
+								"No Meter Counts added yet.\nNo detailed view available!",
+								Toast.LENGTH_LONG);
+				toast.show();
+			} else
+			{
+				Intent intent = new Intent(activity, MeterCountActivity.class);
+				intent.putExtra("meterCounts", meterCounts);
+				intent.putExtra("type", type);
+				intent.putExtra("unit", unit);
+				intent.putExtra("title", name);
+				activity.startActivity(intent);
+			}
+
 		}
 	}
-	
-	
 
 }

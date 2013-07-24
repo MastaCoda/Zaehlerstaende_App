@@ -96,14 +96,11 @@ public class WelcomeActivity extends Activity
 				
 				// save user id
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this);
-				prefs.edit().putLong("UserId", result.getId().getId()).commit();
-				
+				prefs.edit().putLong("UserId", result.getId().getId()).commit();				
 				
 				// get meter list of user
 				MeterCollection meterList = endpoint.getMeterListWithUserId(result.getId().getId()).execute();
 				String meters = meterList.toString();
-				int i = 0;
-				i = i+1;
 				
 				// dismiss progress dialog
 				dialog.dismiss();

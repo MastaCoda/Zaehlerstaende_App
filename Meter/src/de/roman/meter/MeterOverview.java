@@ -11,6 +11,7 @@ public class MeterOverview
 	Long userID;
 	Long meterID;
 	String unit;
+	String type;
 
 	public String getName()
 	{
@@ -80,5 +81,15 @@ public class MeterOverview
 	public void setUnit(String unit)
 	{
 		this.unit = unit;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public void setType(String type)
+	{
+		this.type = type;
 	}
 }

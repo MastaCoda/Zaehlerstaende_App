@@ -10,7 +10,6 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.jackson.JacksonFactory;
 
-
 import de.roman.meter.metrendpoint.Metrendpoint;
 
 import android.annotation.SuppressLint;
@@ -34,7 +33,8 @@ public class CustomAdapter extends BaseAdapter
 
 	private ArrayList<MeterOverview> _data;
 	Context _c;
-	//private int positionSel;
+
+	// private int positionSel;
 
 	CustomAdapter(ArrayList<MeterOverview> data, Context c)
 	{
@@ -68,12 +68,14 @@ public class CustomAdapter extends BaseAdapter
 		}
 
 		ImageView image = (ImageView) v.findViewById(R.id.capture);
+		//ImageView imagedetail = (ImageView) v.findViewById(R.id.detail);
 		TextView meterView = (TextView) v.findViewById(R.id.meter);
 		TextView countView = (TextView) v.findViewById(R.id.count);
 		TextView dateView = (TextView) v.findViewById(R.id.date);
 
 		final MeterOverview meter = _data.get(position);
 
+		//imagedetail.setImageResource(meter.iconDetail);
 		image.setImageResource(meter.icon);
 		meterView.setText(meter.name);
 		countView.setText(meter.count + " " + meter.unit);
@@ -89,10 +91,7 @@ public class CustomAdapter extends BaseAdapter
 
 			public void onClick(View v)
 			{
-
-				// final int selectedid = position;
 				// Get the layout inflater
-				//meter.userID;
 				LayoutInflater inflater = (LayoutInflater) _c
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				AlertDialog.Builder adb = new AlertDialog.Builder(_c);
@@ -116,9 +115,10 @@ public class CustomAdapter extends BaseAdapter
 							{
 								String strCount = edtTxtCount.getText()
 										.toString();
-								
-								//start asynctask to insert metercount
-								new InsertMeterCountTask(meter.meterID, meter.userID, strCount).execute(_c);
+
+								// start asynctask to insert metercount
+								new InsertMeterCountTask(meter.meterID,
+										meter.userID, strCount).execute(_c);
 							}
 						});
 
@@ -135,15 +135,15 @@ public class CustomAdapter extends BaseAdapter
 		public Long userId;
 		public String count;
 		public Context c;
-		
+
 		public InsertMeterCountTask(Long meterId, Long userId, String count)
 		{
 			this.meterId = meterId;
 			this.userId = userId;
 			this.count = count;
 		}
-		
-		protected Long doInBackground(Context...contexts)
+
+		protected Long doInBackground(Context... contexts)
 		{
 			Metrendpoint.Builder endpointBuilder = new Metrendpoint.Builder(
 					AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
@@ -158,22 +158,27 @@ public class CustomAdapter extends BaseAdapter
 
 			try
 			{
-				endpoint.insertMeterCountToUser(meterId, userId, count).execute();
+				endpoint.insertMeterCountToUser(meterId, userId, count)
+						.execute();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 			c = contexts[0];
-			
 
 			return (long) 0;
 		}
 
 		@Override
-		protected void  onPostExecute (Long result)  {
-			Toast toast = Toast.makeText(c, "Your new meter count has been added.\nPress refresh button to see result", Toast.LENGTH_LONG);
-			toast.show();         
-		       
+		protected void onPostExecute(Long result)
+		{
+			Toast toast = Toast
+					.makeText(
+							c,
+							"Your new meter count has been added.\nPress refresh button to see result",
+							Toast.LENGTH_LONG);
+			toast.show();
+
 		}
 
 	}
