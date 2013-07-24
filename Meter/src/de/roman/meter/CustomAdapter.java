@@ -70,7 +70,7 @@ public class CustomAdapter extends BaseAdapter
 		ImageView image = (ImageView) v.findViewById(R.id.capture);
 		//ImageView imagedetail = (ImageView) v.findViewById(R.id.detail);
 		TextView meterView = (TextView) v.findViewById(R.id.meter);
-		TextView countView = (TextView) v.findViewById(R.id.count);
+		final TextView countView = (TextView) v.findViewById(R.id.count);
 		TextView dateView = (TextView) v.findViewById(R.id.date);
 
 		final MeterOverview meter = _data.get(position);
@@ -119,6 +119,8 @@ public class CustomAdapter extends BaseAdapter
 								// start asynctask to insert metercount
 								new InsertMeterCountTask(meter.meterID,
 										meter.userID, strCount).execute(_c);
+								
+								countView.setText(strCount);
 							}
 						});
 
