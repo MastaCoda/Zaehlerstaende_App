@@ -1,22 +1,34 @@
 package de.roman.meter;
 
+/**
+ * Enum the represents the possible Units for a meter
+ * 
+ * @author Roman Schneider
+ * 
+ */
 public enum MeterUnits
 {
-	KWH {
-	    public String toString() {
-	        return "kWh";
-	    }
-	},
-	
-	LITER {
-	    public String toString() {
-	        return "l";
-	    }
-	},
-	 
-	CUBIC {
-	    public String toString() {
-	        return "m³";
-	    }
-	}
+    KWH
+    {
+        public String toString()
+        {
+            return "kWh";
+        }
+    },
+
+    LITER
+    {
+        public String toString()
+        {
+            return "l";
+        }
+    },
+
+    CUBIC
+    {
+        public String toString()
+        {
+            return "m³";
+        }
+    }
 }

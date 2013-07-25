@@ -23,101 +23,121 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Patterns;
 
+/**
+ * This Activity gets the google email adress and checks whether the user with
+ * this email exists. If the user doesn´t exist. A new user with this email will
+ * be created on server.
+ * 
+ * @author Roman Schneider
+ * 
+ */
 public class WelcomeActivity extends Activity
 {
-	SharedPreferences settings;
+    SharedPreferences settings;
 
-	private String userEmail = "";
+    private String userEmail = "";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_welcome);
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
 
-		Pattern emailPattern = Patterns.EMAIL_ADDRESS;
-		Account[] accounts = AccountManager.get(this).getAccounts();
-		for (Account account : accounts)
-		{
-			if (emailPattern.matcher(account.name).matches())
-			{
-				userEmail = account.name;
-				break;
-			}
-		}
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS;
+        Account[] accounts = AccountManager.get(this).getAccounts();
+        for (Account account : accounts)
+        {
+            if (emailPattern.matcher(account.name).matches())
+            {
+                userEmail = account.name;
+                break;
+            }
+        }
 
-		String[] temp = userEmail.split("@");
-		userEmail = temp[0];
+        String[] temp = userEmail.split("@");
+        userEmail = temp[0];
 
-		new CheckForAccountTask().execute(getApplicationContext());
-	}
+        new CheckForAccountTask().execute(getApplicationContext());
+    }
 
-	public class CheckForAccountTask extends AsyncTask<Context, Integer, User>
-	{
+    /**
+     * AsyncTask that searches for an user. If user exists the async task
+     * fetches its meter data. If the user does not exist a new user will be
+     * created.
+     * 
+     * @author Roman Schneider
+     * 
+     */
+    public class CheckForAccountTask extends AsyncTask<Context, Integer, User>
+    {
 
-		ProgressDialog dialog;
+        ProgressDialog dialog;
 
-		@Override
-		protected void onPreExecute()
-		{
-			// Setup Progress Dialog
-			dialog = new ProgressDialog(WelcomeActivity.this);
-			dialog.setCancelable(false);
-			dialog.setMessage("waiting for server...");
-			dialog.show();
-		}
+        @Override
+        protected void onPreExecute()
+        {
+            // Setup Progress Dialog
+            dialog = new ProgressDialog(WelcomeActivity.this);
+            dialog.setCancelable(false);
+            dialog.setMessage("waiting for server...");
+            dialog.show();
+        }
 
-		protected User doInBackground(Context... contexts)
-		{
-			Userendpoint.Builder endpointBuilder = new Userendpoint.Builder(
-					AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
-					new HttpRequestInitializer()
-					{
-						public void initialize(HttpRequest httpRequest)
-						{
-						}
-					});
-			Userendpoint endpoint = CloudEndpointUtils.updateBuilder(
-					endpointBuilder).build();
-			User result = null;
-			try
-			{
+        protected User doInBackground(Context... contexts)
+        {
+            Userendpoint.Builder endpointBuilder = new Userendpoint.Builder(
+                    AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
+                    new HttpRequestInitializer()
+                    {
+                        public void initialize(HttpRequest httpRequest)
+                        {
+                        }
+                    });
+            Userendpoint endpoint = CloudEndpointUtils.updateBuilder(
+                    endpointBuilder).build();
+            User result = null;
+            try
+            {
 
-				result = endpoint.getUserByEmail(userEmail).execute();
+                result = endpoint.getUserByEmail(userEmail).execute();
 
-				if (result == null)
-				{
-					// insert new user
-					User user = new User();
-					user.setEmail(userEmail);
-					result = endpoint.insertUser(user).execute();
-					result = endpoint.getUserByEmail(userEmail).execute();
-				}
-				
-				// save user id
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this);
-				prefs.edit().putLong("UserId", result.getId().getId()).commit();				
-				
-				// get meter list of user
-				MeterCollection meterList = endpoint.getMeterListWithUserId(result.getId().getId()).execute();
-				String meters = meterList.toString();
-				
-				// dismiss progress dialog
-				dialog.dismiss();
-				
-				// Start up HomeActivity after checking account and insert user if account didn´t exist
-				Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
-				intent.putExtra("meters", meters);
-				startActivity(intent);
-				
-				// finish it after launching HomeActivity
-				finish();
+                if (result.getEmail() == null)
+                {
+                    // insert new user
+                    User user = new User();
+                    user.setEmail(userEmail);
+                    result = endpoint.insertUser(user).execute();
+                    result = endpoint.getUserByEmail(userEmail).execute();
+                }
 
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			return result;
-		}
-	}
+                // save user id
+                SharedPreferences prefs = PreferenceManager
+                        .getDefaultSharedPreferences(WelcomeActivity.this);
+                prefs.edit().putLong("UserId", result.getId().getId()).commit();
+
+                // get meter list of user
+                MeterCollection meterList = endpoint.getMeterListWithUserId(
+                        result.getId().getId()).execute();
+                String meters = meterList.toString();
+
+                // dismiss progress dialog
+                dialog.dismiss();
+
+                // Start up HomeActivity after checking account and insert user
+                // if account didn´t exist
+                Intent intent = new Intent(WelcomeActivity.this,
+                        HomeActivity.class);
+                intent.putExtra("meters", meters);
+                startActivity(intent);
+
+                // finish it after launching HomeActivity
+                finish();
+
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
 }
