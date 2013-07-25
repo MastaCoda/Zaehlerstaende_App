@@ -37,6 +37,12 @@
     
     <string name="dialog_add_meter_categ_tvExistUnits">Units:</string>
     <string name="dialog_add_meter_categ_tvNewUnit">New Unit:</string>
+    
+    <!--  MeterCountActivity TextViews -->
+    <string name="tvOverallUsage">Overall Usage:</string>
+    <string name="tvUsageMonth">Usage this month:</string>
+    <string name="tvUsageYear">Usage this year:</string>
+    <string name="tvUsageLastYear">Usage last year:</string>
        
     
     <!-- New Meter Count Dialog -->
