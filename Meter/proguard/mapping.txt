@@ -116,12 +116,12 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     int hashCode() -> hashCode
     java.lang.String toString() -> toString
     void setArguments(android.os.Bundle) -> b
-    android.support.v4.app.FragmentActivity getActivity() -> b
-    android.content.res.Resources getResources() -> c
-    java.lang.String getString(int) -> a
-    boolean isAdded() -> d
-    boolean isDetached() -> e
-    boolean isHidden() -> f
+    android.os.Bundle getArguments() -> b
+    android.support.v4.app.FragmentActivity getActivity() -> c
+    android.content.res.Resources getResources() -> d
+    boolean isAdded() -> e
+    boolean isDetached() -> f
+    boolean isHidden() -> g
     void onHiddenChanged(boolean) -> a
     void setMenuVisibility(boolean) -> b
     void setUserVisibleHint(boolean) -> c
@@ -133,47 +133,47 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     void onCreate(android.os.Bundle) -> d
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void onViewCreated(android.view.View,android.os.Bundle) -> a
-    android.view.View getView() -> g
+    android.view.View getView() -> h
     void onActivityCreated(android.os.Bundle) -> e
     void onViewStateRestored(android.os.Bundle) -> f
-    void onStart() -> h
-    void onResume() -> i
+    void onStart() -> i
+    void onResume() -> j
     void onSaveInstanceState(android.os.Bundle) -> g
     void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    void onPause() -> j
-    void onStop() -> k
+    void onPause() -> k
+    void onStop() -> l
     void onLowMemory() -> onLowMemory
-    void onDestroyView() -> l
-    void onDestroy() -> m
-    void initState() -> n
-    void onDetach() -> o
+    void onDestroyView() -> m
+    void onDestroy() -> n
+    void initState() -> o
+    void onDetach() -> p
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     void onPrepareOptionsMenu(android.view.Menu) -> a
-    void onDestroyOptionsMenu() -> p
+    void onDestroyOptionsMenu() -> q
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
     void onOptionsMenuClosed(android.view.Menu) -> b
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> b
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-    void instantiateChildFragmentManager() -> q
+    void instantiateChildFragmentManager() -> r
     void performCreate(android.os.Bundle) -> h
     android.view.View performCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> b
     void performActivityCreated(android.os.Bundle) -> i
-    void performStart() -> r
-    void performResume() -> s
+    void performStart() -> s
+    void performResume() -> t
     void performConfigurationChanged(android.content.res.Configuration) -> a
-    void performLowMemory() -> t
+    void performLowMemory() -> u
     boolean performCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> b
     boolean performPrepareOptionsMenu(android.view.Menu) -> c
     boolean performOptionsItemSelected(android.view.MenuItem) -> c
     boolean performContextItemSelected(android.view.MenuItem) -> d
     void performOptionsMenuClosed(android.view.Menu) -> d
     void performSaveInstanceState(android.os.Bundle) -> j
-    void performPause() -> u
-    void performStop() -> v
-    void performReallyStop() -> w
-    void performDestroyView() -> x
-    void performDestroy() -> y
+    void performPause() -> v
+    void performStop() -> w
+    void performReallyStop() -> x
+    void performDestroyView() -> y
+    void performDestroy() -> z
 android.support.v4.app.Fragment$1 -> android.support.v4.app.e:
     android.support.v4.app.Fragment this$0 -> a
     android.view.View findViewById(int) -> a
@@ -1509,42 +1509,14 @@ android.support.v4.widget.ViewDragHelper$Callback -> android.support.v4.widget.a
 com.google.android.gcm.GCMBaseIntentService -> com.google.android.gcm.a:
     android.os.PowerManager$WakeLock sWakeLock -> a
     java.lang.Object LOCK -> b
-    java.lang.String mSenderId -> c
-    int sCounter -> d
-    java.util.Random sRandom -> e
-    int MAX_BACKOFF_MS -> f
-    java.lang.String TOKEN -> g
-    void onMessage(android.content.Context,android.content.Intent) -> a
-    void onDeletedMessages(android.content.Context,int) -> a
-    boolean onRecoverableError(android.content.Context,java.lang.String) -> a
-    void onError(android.content.Context,java.lang.String) -> b
-    void onRegistered(android.content.Context,java.lang.String) -> c
-    void onUnregistered(android.content.Context,java.lang.String) -> d
-    void onHandleIntent(android.content.Intent) -> onHandleIntent
+    int sCounter -> c
+    java.util.Random sRandom -> d
+    int MAX_BACKOFF_MS -> e
+    java.lang.String TOKEN -> f
     void runIntentInService(android.content.Context,android.content.Intent,java.lang.String) -> a
-    void handleRegistration(android.content.Context,android.content.Intent) -> b
 com.google.android.gcm.GCMBroadcastReceiver -> com.google.android.gcm.GCMBroadcastReceiver:
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
     java.lang.String getGCMIntentServiceClassName(android.content.Context) -> a
-com.google.android.gcm.GCMRegistrar -> com.google.android.gcm.b:
-    com.google.android.gcm.GCMBroadcastReceiver sRetryReceiver -> a
-    void checkDevice(android.content.Context) -> a
-    void checkManifest(android.content.Context) -> b
-    void checkReceiver(android.content.Context,java.util.Set,java.lang.String) -> a
-    void register(android.content.Context,java.lang.String[]) -> a
-    void internalRegister(android.content.Context,java.lang.String[]) -> b
-    void unregister(android.content.Context) -> c
-    void internalUnregister(android.content.Context) -> d
-    void setRetryBroadcastReceiver(android.content.Context) -> j
-    java.lang.String getRegistrationId(android.content.Context) -> e
-    boolean isRegistered(android.content.Context) -> f
-    java.lang.String clearRegistrationId(android.content.Context) -> g
-    java.lang.String setRegistrationId(android.content.Context,java.lang.String) -> a
-    int getAppVersion(android.content.Context) -> k
-    void resetBackoff(android.content.Context) -> h
-    int getBackoff(android.content.Context) -> i
-    void setBackoff(android.content.Context,int) -> a
-    android.content.SharedPreferences getGCMPreferences(android.content.Context) -> l
 com.google.api.client.extensions.android.AndroidUtils -> com.google.a.a.a.a.a:
     boolean isMinimumSdkLevel(int) -> a
 com.google.api.client.extensions.android.http.AndroidHttp -> com.google.a.a.a.a.a.a:
@@ -1640,12 +1612,11 @@ com.google.api.client.googleapis.services.AbstractGoogleClient -> com.google.a.a
     com.google.api.client.util.ObjectParser objectParser -> g
     boolean suppressPatternChecks -> h
     boolean suppressRequiredParameterChecks -> i
-    java.lang.String getRootUrl() -> a
-    java.lang.String getBaseUrl() -> b
-    java.lang.String getApplicationName() -> c
-    com.google.api.client.http.HttpRequestFactory getRequestFactory() -> d
-    com.google.api.client.googleapis.services.GoogleClientRequestInitializer getGoogleClientRequestInitializer() -> e
-    com.google.api.client.util.ObjectParser getObjectParser() -> f
+    java.lang.String getBaseUrl() -> a
+    java.lang.String getApplicationName() -> b
+    com.google.api.client.http.HttpRequestFactory getRequestFactory() -> c
+    com.google.api.client.googleapis.services.GoogleClientRequestInitializer getGoogleClientRequestInitializer() -> d
+    com.google.api.client.util.ObjectParser getObjectParser() -> e
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
     java.lang.String normalizeRootUrl(java.lang.String) -> a
     java.lang.String normalizeServicePath(java.lang.String) -> b
@@ -1693,9 +1664,9 @@ com.google.api.client.googleapis.services.AbstractGoogleClientRequest$1 -> com.g
 com.google.api.client.googleapis.services.GoogleClientRequestInitializer -> com.google.a.a.b.c.e:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
 com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient -> com.google.a.a.b.c.a.a:
-    com.google.api.client.json.JsonObjectParser getObjectParser() -> g
-    com.google.api.client.json.JsonFactory getJsonFactory() -> h
-    com.google.api.client.util.ObjectParser getObjectParser() -> f
+    com.google.api.client.json.JsonObjectParser getObjectParser() -> f
+    com.google.api.client.json.JsonFactory getJsonFactory() -> g
+    com.google.api.client.util.ObjectParser getObjectParser() -> e
 com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder -> com.google.a.a.b.c.a.b:
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
@@ -2740,26 +2711,38 @@ de.roman.meter.CustomAdapter -> de.roman.meter.c:
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
 de.roman.meter.CustomAdapter$1 -> de.roman.meter.d:
     de.roman.meter.CustomAdapter this$0 -> a
+    de.roman.meter.MeterOverview val$meter -> b
+    android.widget.TextView val$countView -> c
+    android.widget.TextView val$dateView -> d
     void onClick(android.view.View) -> onClick
+    de.roman.meter.CustomAdapter access$0(de.roman.meter.CustomAdapter$1) -> a
 de.roman.meter.CustomAdapter$1$1 -> de.roman.meter.e:
-    de.roman.meter.CustomAdapter$1 this$1 -> a
+    android.widget.EditText edtTxtCount -> a
+    de.roman.meter.CustomAdapter$1 this$1 -> b
+    de.roman.meter.MeterOverview val$meter -> c
+    android.widget.TextView val$countView -> d
+    android.widget.TextView val$dateView -> e
     void onClick(android.content.DialogInterface,int) -> onClick
-de.roman.meter.GCMIntentService -> de.roman.meter.GCMIntentService:
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint endpoint -> a
-    void register(android.content.Context) -> a
-    void unregister(android.content.Context) -> b
-    void onError(android.content.Context,java.lang.String) -> b
-    void onMessage(android.content.Context,android.content.Intent) -> a
-    void onRegistered(android.content.Context,java.lang.String) -> c
-    void onUnregistered(android.content.Context,java.lang.String) -> d
-    void sendNotificationIntent(android.content.Context,java.lang.String,boolean,boolean) -> a
-    java.lang.String getWebSampleUrl(java.lang.String) -> a
-de.roman.meter.GCMIntentService$1 -> de.roman.meter.f:
-    de.roman.meter.GCMIntentService this$0 -> a
+de.roman.meter.CustomAdapter$InsertMeterCountTask -> de.roman.meter.f:
+    java.lang.Long meterId -> a
+    java.lang.Long userId -> b
+    java.lang.String count -> c
+    android.content.Context c -> d
+    de.roman.meter.CustomAdapter this$0 -> e
+    java.lang.Long doInBackground(android.content.Context[]) -> a
+    void onPostExecute(java.lang.Long) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+de.roman.meter.CustomAdapter$InsertMeterCountTask$1 -> de.roman.meter.g:
+    de.roman.meter.CustomAdapter$InsertMeterCountTask this$1 -> a
     void initialize(com.google.api.client.http.HttpRequest) -> a
 de.roman.meter.HomeActivity -> de.roman.meter.HomeActivity:
     de.roman.meter.HomeActivity$SectionsPagerAdapter mSectionsPagerAdapter -> n
     android.support.v4.view.ViewPager mViewPager -> o
+    android.content.SharedPreferences settings -> p
+    java.lang.Long userId -> q
+    android.content.Intent welcomeIntent -> r
+    java.lang.String metersJson -> s
     void onCreate(android.os.Bundle) -> onCreate
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
@@ -2767,113 +2750,196 @@ de.roman.meter.HomeActivity -> de.roman.meter.HomeActivity:
     void onTabUnselected(android.app.ActionBar$Tab,android.app.FragmentTransaction) -> onTabUnselected
     void onTabReselected(android.app.ActionBar$Tab,android.app.FragmentTransaction) -> onTabReselected
     android.app.Dialog addMeter() -> f
-    android.app.Dialog addMeterCategory() -> g
-de.roman.meter.HomeActivity$1 -> de.roman.meter.g:
+    android.app.Dialog infoDialog() -> g
+de.roman.meter.HomeActivity$1 -> de.roman.meter.h:
     de.roman.meter.HomeActivity this$0 -> a
     android.app.ActionBar val$actionBar -> b
     void onPageSelected(int) -> a
-de.roman.meter.HomeActivity$2 -> de.roman.meter.h:
+de.roman.meter.HomeActivity$2 -> de.roman.meter.i:
     de.roman.meter.HomeActivity this$0 -> a
+    android.widget.Spinner val$spinCat -> b
+    android.widget.EditText val$edtTxtName -> c
+    android.widget.Spinner val$spinUnit -> d
+    android.widget.EditText val$edtTxtCmnt -> e
     void onClick(android.content.DialogInterface,int) -> onClick
-de.roman.meter.HomeActivity$3 -> de.roman.meter.i:
-    de.roman.meter.HomeActivity this$0 -> a
-    android.view.View val$layout -> b
-    void onClick(android.content.DialogInterface,int) -> onClick
-de.roman.meter.HomeActivity$EndpointsTask -> de.roman.meter.j:
-    de.roman.meter.HomeActivity this$0 -> a
-    java.lang.Long doInBackground(android.content.Context[]) -> a
+de.roman.meter.HomeActivity$InsertMeterTask -> de.roman.meter.j:
+    java.lang.String meterName -> a
+    java.lang.String meterComment -> b
+    java.lang.String meterType -> c
+    java.lang.String unit -> d
+    java.lang.Long userId -> e
+    android.content.Context c -> f
+    de.roman.meter.HomeActivity this$0 -> g
+    de.roman.meter.userendpoint.model.Meter doInBackground(android.content.Context[]) -> a
+    void onPostExecute(de.roman.meter.userendpoint.model.Meter) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-de.roman.meter.HomeActivity$EndpointsTask$1 -> de.roman.meter.k:
-    de.roman.meter.HomeActivity$EndpointsTask this$1 -> a
+de.roman.meter.HomeActivity$InsertMeterTask$1 -> de.roman.meter.k:
+    de.roman.meter.HomeActivity$InsertMeterTask this$1 -> a
     void initialize(com.google.api.client.http.HttpRequest) -> a
-de.roman.meter.HomeActivity$SectionFragment -> de.roman.meter.l:
-    android.widget.ListView msgList -> P
-    java.util.ArrayList details -> Q
+de.roman.meter.HomeActivity$MeterCountTask -> de.roman.meter.l:
+    android.app.ProgressDialog dialog -> a
+    java.lang.String metersCounts -> b
+    java.lang.Long meterId -> c
+    java.lang.Long lngUserId -> d
+    android.app.Activity activity -> e
+    java.lang.String name -> f
+    java.lang.String type -> g
+    java.lang.String unit -> h
+    de.roman.meter.HomeActivity this$0 -> i
+    void onPreExecute() -> onPreExecute
+    java.lang.String doInBackground(java.lang.Integer[]) -> a
+    void onPostExecute(java.lang.String) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+de.roman.meter.HomeActivity$MeterCountTask$1 -> de.roman.meter.m:
+    de.roman.meter.HomeActivity$MeterCountTask this$1 -> a
+    void initialize(com.google.api.client.http.HttpRequest) -> a
+de.roman.meter.HomeActivity$RefreshTask -> de.roman.meter.n:
+    android.app.ProgressDialog dialog -> a
+    java.lang.String meters -> b
+    de.roman.meter.HomeActivity this$0 -> c
+    void onPreExecute() -> onPreExecute
+    java.lang.String doInBackground(android.content.Context[]) -> a
+    void onPostExecute(java.lang.String) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+de.roman.meter.HomeActivity$RefreshTask$1 -> de.roman.meter.o:
+    de.roman.meter.HomeActivity$RefreshTask this$1 -> a
+    void initialize(com.google.api.client.http.HttpRequest) -> a
+de.roman.meter.HomeActivity$SectionFragment -> de.roman.meter.p:
+    java.lang.Boolean meterExisting -> P
+    java.lang.String strJArrayStrom -> Q
+    java.lang.String strJArrayWasser -> R
+    java.lang.String strJArrayGas -> S
+    java.lang.String strJArrayOel -> T
+    java.lang.String meterJson -> U
+    java.lang.String meterJsonNew -> V
+    android.widget.ListView meterListView -> W
+    java.util.ArrayList meterList -> X
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-de.roman.meter.HomeActivity$SectionsPagerAdapter -> de.roman.meter.m:
-    de.roman.meter.HomeActivity this$0 -> a
+    void seperateJsonArray(android.view.View,java.lang.String) -> a
+    void setListEntries(java.lang.String) -> a
+    void setMeterJsonNew(java.lang.String) -> b
+de.roman.meter.HomeActivity$SectionFragment$1 -> de.roman.meter.q:
+    de.roman.meter.HomeActivity$SectionFragment this$1 -> a
+    android.app.Activity val$activityContext -> b
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+de.roman.meter.HomeActivity$SectionsPagerAdapter -> de.roman.meter.r:
+    java.util.Map existingFragements -> a
+    de.roman.meter.HomeActivity this$0 -> b
     android.support.v4.app.Fragment getItem(int) -> a
     int getCount() -> b
     java.lang.CharSequence getPageTitle(int) -> c
-de.roman.meter.MeterOverview -> de.roman.meter.n:
-    int icon -> a
-    java.lang.String from -> b
-    java.lang.String sub -> c
-    java.lang.String date -> d
-    void setName(java.lang.String) -> a
-    void setSub(java.lang.String) -> b
-    void setIcon(int) -> a
-    void setDate(java.lang.String) -> c
-de.roman.meter.RegisterActivity -> de.roman.meter.RegisterActivity:
-    de.roman.meter.RegisterActivity$State curState -> a
-    android.view.View$OnTouchListener registerListener -> b
-    android.view.View$OnTouchListener unregisterListener -> c
-    de.roman.meter.messageEndpoint.MessageEndpoint messageEndpoint -> d
-    int[] $SWITCH_TABLE$de$roman$meter$RegisterActivity$State -> e
+de.roman.meter.MeterCountActivity -> de.roman.meter.MeterCountActivity:
+    android.content.Intent homeIntent -> a
+    java.lang.String meterCounts -> b
+    java.lang.String unit -> c
+    java.util.List data -> d
     void onCreate(android.os.Bundle) -> onCreate
-    void onNewIntent(android.content.Intent) -> onNewIntent
-    void updateState(de.roman.meter.RegisterActivity$State) -> a
-    void showDialog(java.lang.String) -> a
-    void access$0(de.roman.meter.RegisterActivity,java.lang.String) -> a
-    void access$1(de.roman.meter.RegisterActivity,de.roman.meter.RegisterActivity$State) -> a
-    int[] $SWITCH_TABLE$de$roman$meter$RegisterActivity$State() -> a
-de.roman.meter.RegisterActivity$1 -> de.roman.meter.o:
-    de.roman.meter.RegisterActivity this$0 -> a
-    boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-de.roman.meter.RegisterActivity$2 -> de.roman.meter.p:
-    de.roman.meter.RegisterActivity this$0 -> a
-    boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-de.roman.meter.RegisterActivity$3 -> de.roman.meter.q:
-    de.roman.meter.RegisterActivity this$0 -> a
-    void initialize(com.google.api.client.http.HttpRequest) -> a
-de.roman.meter.RegisterActivity$4 -> de.roman.meter.r:
-    de.roman.meter.RegisterActivity this$0 -> a
-    void onClick(android.content.DialogInterface,int) -> onClick
-de.roman.meter.RegisterActivity$QueryMessagesTask -> de.roman.meter.s:
-    java.lang.Exception exceptionThrown -> a
-    android.app.Activity activity -> b
-    de.roman.meter.messageEndpoint.MessageEndpoint messageEndpoint -> c
-    de.roman.meter.RegisterActivity this$0 -> d
-    de.roman.meter.messageEndpoint.model.CollectionResponseMessageData doInBackground(java.lang.Void[]) -> a
-    void onPostExecute(de.roman.meter.messageEndpoint.model.CollectionResponseMessageData) -> a
-    void onPostExecute(java.lang.Object) -> onPostExecute
+    void getValueAndDate(java.lang.String) -> a
+    java.lang.String calculateUsage() -> a
+    java.lang.String calculateMonthlyUsage() -> b
+    java.lang.String calculateYearlyUsage() -> c
+    java.lang.String calculateYearlyUsageLastYear() -> d
+de.roman.meter.MeterOverview -> de.roman.meter.s:
+    int icon -> a
+    java.lang.String name -> b
+    java.lang.String count -> c
+    java.util.Date date -> d
+    java.lang.Long userID -> e
+    java.lang.Long meterID -> f
+    java.lang.String unit -> g
+    java.lang.String type -> h
+    void setName(java.lang.String) -> a
+    void setCount(java.lang.String) -> b
+    void setIcon(int) -> a
+    void setDate(java.util.Date) -> a
+    void setUserID(java.lang.Long) -> a
+    void setMeterID(java.lang.Long) -> b
+    void setUnit(java.lang.String) -> c
+    void setType(java.lang.String) -> d
+de.roman.meter.MeterTypes -> de.roman.meter.t:
+    de.roman.meter.MeterTypes STROM -> a
+    de.roman.meter.MeterTypes GAS -> b
+    de.roman.meter.MeterTypes WASSER -> c
+    de.roman.meter.MeterTypes OEL -> d
+    de.roman.meter.MeterTypes[] ENUM$VALUES -> e
+    de.roman.meter.MeterTypes[] values() -> values
+    de.roman.meter.MeterTypes valueOf(java.lang.String) -> valueOf
+de.roman.meter.MeterTypes$1 -> de.roman.meter.u:
+    java.lang.String toString() -> toString
+de.roman.meter.MeterTypes$2 -> de.roman.meter.v:
+    java.lang.String toString() -> toString
+de.roman.meter.MeterTypes$3 -> de.roman.meter.w:
+    java.lang.String toString() -> toString
+de.roman.meter.MeterTypes$4 -> de.roman.meter.x:
+    java.lang.String toString() -> toString
+de.roman.meter.MeterUnits -> de.roman.meter.y:
+    de.roman.meter.MeterUnits KWH -> a
+    de.roman.meter.MeterUnits LITER -> b
+    de.roman.meter.MeterUnits CUBIC -> c
+    de.roman.meter.MeterUnits[] ENUM$VALUES -> d
+    de.roman.meter.MeterUnits[] values() -> values
+    de.roman.meter.MeterUnits valueOf(java.lang.String) -> valueOf
+de.roman.meter.MeterUnits$1 -> de.roman.meter.z:
+    java.lang.String toString() -> toString
+de.roman.meter.MeterUnits$2 -> de.roman.meter.aa:
+    java.lang.String toString() -> toString
+de.roman.meter.MeterUnits$3 -> de.roman.meter.ab:
+    java.lang.String toString() -> toString
+de.roman.meter.Units -> de.roman.meter.ac:
+    de.roman.meter.Units KWH -> a
+    de.roman.meter.Units LITER -> b
+    de.roman.meter.Units CUBIC -> c
+    de.roman.meter.Units[] ENUM$VALUES -> d
+    de.roman.meter.Units[] values() -> values
+    de.roman.meter.Units valueOf(java.lang.String) -> valueOf
+de.roman.meter.Units$1 -> de.roman.meter.ad:
+    java.lang.String toString() -> toString
+de.roman.meter.Units$2 -> de.roman.meter.ae:
+    java.lang.String toString() -> toString
+de.roman.meter.Units$3 -> de.roman.meter.af:
+    java.lang.String toString() -> toString
+de.roman.meter.WelcomeActivity -> de.roman.meter.WelcomeActivity:
+    java.lang.String userEmail -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    java.lang.String access$0(de.roman.meter.WelcomeActivity) -> a
+de.roman.meter.WelcomeActivity$CheckForAccountTask -> de.roman.meter.ag:
+    android.app.ProgressDialog dialog -> a
+    de.roman.meter.WelcomeActivity this$0 -> b
+    void onPreExecute() -> onPreExecute
+    de.roman.meter.userendpoint.model.User doInBackground(android.content.Context[]) -> a
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-de.roman.meter.RegisterActivity$State -> de.roman.meter.t:
-    de.roman.meter.RegisterActivity$State REGISTERED -> a
-    de.roman.meter.RegisterActivity$State REGISTERING -> b
-    de.roman.meter.RegisterActivity$State UNREGISTERED -> c
-    de.roman.meter.RegisterActivity$State UNREGISTERING -> d
-    de.roman.meter.RegisterActivity$State[] ENUM$VALUES -> e
-    de.roman.meter.RegisterActivity$State[] values() -> values
-    de.roman.meter.RegisterActivity$State valueOf(java.lang.String) -> valueOf
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint -> de.roman.meter.a.a:
+de.roman.meter.WelcomeActivity$CheckForAccountTask$1 -> de.roman.meter.ah:
+    de.roman.meter.WelcomeActivity$CheckForAccountTask this$1 -> a
+    void initialize(com.google.api.client.http.HttpRequest) -> a
+de.roman.meter.metrendpoint.Metrendpoint -> de.roman.meter.a.a:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo getDeviceInfo(java.lang.String) -> c
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo insertDeviceInfo(de.roman.meter.deviceinfoendpoint.model.DeviceInfo) -> a
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo removeDeviceInfo(java.lang.String) -> d
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder -> de.roman.meter.a.b:
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint build() -> b
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setRootUrl(java.lang.String) -> e
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setServicePath(java.lang.String) -> f
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> c
+    de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId getMeterCountListWithUserId(java.lang.Long,java.lang.Long) -> a
+    de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser insertMeterCountToUser(java.lang.Long,java.lang.Long,java.lang.String) -> a
+de.roman.meter.metrendpoint.Metrendpoint$Builder -> de.roman.meter.a.b:
+    de.roman.meter.metrendpoint.Metrendpoint build() -> b
+    de.roman.meter.metrendpoint.Metrendpoint$Builder setRootUrl(java.lang.String) -> e
+    de.roman.meter.metrendpoint.Metrendpoint$Builder setServicePath(java.lang.String) -> f
+    de.roman.meter.metrendpoint.Metrendpoint$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo -> de.roman.meter.a.c:
-    java.lang.String id -> id
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint this$0 -> c
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo set(java.lang.String,java.lang.Object) -> e
-    de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest set(java.lang.String,java.lang.Object) -> f
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo -> de.roman.meter.a.d:
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint this$0 -> c
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo set(java.lang.String,java.lang.Object) -> e
-    de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest set(java.lang.String,java.lang.Object) -> f
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo -> de.roman.meter.a.e:
-    java.lang.String id -> id
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint this$0 -> c
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo set(java.lang.String,java.lang.Object) -> e
-    de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest set(java.lang.String,java.lang.Object) -> f
-de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest -> de.roman.meter.a.f:
+de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId -> de.roman.meter.a.c:
+    java.lang.Long meterId -> meterId
+    java.lang.Long userId -> userId
+    de.roman.meter.metrendpoint.Metrendpoint this$0 -> c
+    de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId set(java.lang.String,java.lang.Object) -> e
+    de.roman.meter.metrendpoint.MetrendpointRequest set(java.lang.String,java.lang.Object) -> f
+de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser -> de.roman.meter.a.d:
+    java.lang.Long meterId -> meterId
+    java.lang.Long userId -> userId
+    java.lang.String metercountvalue -> metercountvalue
+    de.roman.meter.metrendpoint.Metrendpoint this$0 -> c
+    de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser set(java.lang.String,java.lang.Object) -> e
+    de.roman.meter.metrendpoint.MetrendpointRequest set(java.lang.String,java.lang.Object) -> f
+de.roman.meter.metrendpoint.MetrendpointRequest -> de.roman.meter.a.e:
     java.lang.String alt -> alt
     java.lang.String fields -> fields
     java.lang.String key -> key
@@ -2881,89 +2947,68 @@ de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest -> de.roman.meter.a.
     java.lang.Boolean prettyPrint -> prettyPrint
     java.lang.String quotaUser -> quotaUser
     java.lang.String userIp -> userIp
-    de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint getAbstractGoogleClient() -> h
-    de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setDisableGZipContent(boolean) -> c
-    de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest set(java.lang.String,java.lang.Object) -> f
+    de.roman.meter.metrendpoint.Metrendpoint getAbstractGoogleClient() -> h
+    de.roman.meter.metrendpoint.MetrendpointRequest setDisableGZipContent(boolean) -> c
+    de.roman.meter.metrendpoint.MetrendpointRequest set(java.lang.String,java.lang.Object) -> f
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
-de.roman.meter.deviceinfoendpoint.model.DeviceInfo -> de.roman.meter.a.a.a:
-    java.lang.String deviceInformation -> deviceInformation
-    java.lang.String deviceRegistrationID -> deviceRegistrationID
-    java.lang.Long timestamp -> timestamp
-    de.roman.meter.deviceinfoendpoint.model.DeviceInfo setDeviceInformation(java.lang.String) -> a
-    java.lang.String getDeviceRegistrationID() -> a
-    de.roman.meter.deviceinfoendpoint.model.DeviceInfo setDeviceRegistrationID(java.lang.String) -> b
-    de.roman.meter.deviceinfoendpoint.model.DeviceInfo setTimestamp(java.lang.Long) -> a
-    de.roman.meter.deviceinfoendpoint.model.DeviceInfo set(java.lang.String,java.lang.Object) -> a
-    de.roman.meter.deviceinfoendpoint.model.DeviceInfo clone() -> e
-    com.google.api.client.json.GenericJson clone() -> b
-    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-de.roman.meter.messageEndpoint.MessageEndpoint -> de.roman.meter.b.a:
-    void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
-    de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages listMessages() -> i
-de.roman.meter.messageEndpoint.MessageEndpoint$Builder -> de.roman.meter.b.b:
-    de.roman.meter.messageEndpoint.MessageEndpoint build() -> b
-    de.roman.meter.messageEndpoint.MessageEndpoint$Builder setRootUrl(java.lang.String) -> e
-    de.roman.meter.messageEndpoint.MessageEndpoint$Builder setServicePath(java.lang.String) -> f
-    de.roman.meter.messageEndpoint.MessageEndpoint$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> c
-    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
-    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
-    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
-de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages -> de.roman.meter.b.c:
-    java.lang.String cursor -> cursor
-    java.lang.Integer limit -> limit
-    de.roman.meter.messageEndpoint.MessageEndpoint this$0 -> c
-    de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setLimit(java.lang.Integer) -> a
-    de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages set(java.lang.String,java.lang.Object) -> e
-    de.roman.meter.messageEndpoint.MessageEndpointRequest set(java.lang.String,java.lang.Object) -> f
-de.roman.meter.messageEndpoint.MessageEndpointRequest -> de.roman.meter.b.d:
-    java.lang.String alt -> alt
-    java.lang.String fields -> fields
-    java.lang.String key -> key
-    java.lang.String oauthToken -> oauthToken
-    java.lang.Boolean prettyPrint -> prettyPrint
-    java.lang.String quotaUser -> quotaUser
-    java.lang.String userIp -> userIp
-    de.roman.meter.messageEndpoint.MessageEndpoint getAbstractGoogleClient() -> h
-    de.roman.meter.messageEndpoint.MessageEndpointRequest setDisableGZipContent(boolean) -> c
-    de.roman.meter.messageEndpoint.MessageEndpointRequest set(java.lang.String,java.lang.Object) -> f
-    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
-    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
-    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
-de.roman.meter.messageEndpoint.model.CollectionResponseMessageData -> de.roman.meter.b.a.a:
-    java.util.List items -> items
-    java.lang.String nextPageToken -> nextPageToken
-    java.util.List getItems() -> a
-    de.roman.meter.messageEndpoint.model.CollectionResponseMessageData set(java.lang.String,java.lang.Object) -> a
-    de.roman.meter.messageEndpoint.model.CollectionResponseMessageData clone() -> e
-    com.google.api.client.json.GenericJson clone() -> b
-    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-de.roman.meter.messageEndpoint.model.Key -> de.roman.meter.b.a.b:
+de.roman.meter.metrendpoint.model.Key -> de.roman.meter.a.a.a:
     java.lang.String appId -> appId
     java.lang.Boolean complete -> complete
     java.lang.Long id -> id
     java.lang.String kind -> kind
     java.lang.String name -> name
     java.lang.String namespace -> namespace
-    de.roman.meter.messageEndpoint.model.Key parent -> parent
-    de.roman.meter.messageEndpoint.model.Key set(java.lang.String,java.lang.Object) -> a
-    de.roman.meter.messageEndpoint.model.Key clone() -> a
+    de.roman.meter.metrendpoint.model.Key parent -> parent
+    de.roman.meter.metrendpoint.model.Key set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.metrendpoint.model.Key clone() -> a
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-de.roman.meter.messageEndpoint.model.MessageData -> de.roman.meter.b.a.c:
-    de.roman.meter.messageEndpoint.model.Key key -> key
-    java.lang.String message -> message
-    java.lang.Long timestamp -> timestamp
-    java.lang.String getMessage() -> a
-    de.roman.meter.messageEndpoint.model.MessageData set(java.lang.String,java.lang.Object) -> a
-    de.roman.meter.messageEndpoint.model.MessageData clone() -> e
+de.roman.meter.metrendpoint.model.Meter -> de.roman.meter.a.a.b:
+    java.lang.String description -> description
+    de.roman.meter.metrendpoint.model.Key key -> key
+    java.lang.Float lastCount -> lastCount
+    com.google.api.client.util.DateTime lastCountDate -> lastCountDate
+    java.util.List metercounts -> metercounts
+    java.lang.String name -> name
+    java.lang.String type -> type
+    java.lang.String unit -> unit
+    de.roman.meter.metrendpoint.model.User user -> user
+    de.roman.meter.metrendpoint.model.Meter set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.metrendpoint.model.Meter clone() -> a
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-de.roman.meter.userendpoint.Userendpoint -> de.roman.meter.c.a:
+de.roman.meter.metrendpoint.model.MeterCount -> de.roman.meter.a.a.c:
+    com.google.api.client.util.DateTime date -> date
+    de.roman.meter.metrendpoint.model.Key key -> key
+    de.roman.meter.metrendpoint.model.Meter meter -> meter
+    java.lang.Float value -> value
+    de.roman.meter.metrendpoint.model.MeterCount set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.metrendpoint.model.MeterCount clone() -> a
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+de.roman.meter.metrendpoint.model.MeterCountCollection -> de.roman.meter.a.a.d:
+    java.util.List items -> items
+    de.roman.meter.metrendpoint.model.MeterCountCollection set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.metrendpoint.model.MeterCountCollection clone() -> a
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+de.roman.meter.metrendpoint.model.User -> de.roman.meter.a.a.e:
+    java.lang.String email -> email
+    de.roman.meter.metrendpoint.model.Key id -> id
+    java.util.List meters -> meters
+    de.roman.meter.metrendpoint.model.User set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.metrendpoint.model.User clone() -> a
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+de.roman.meter.userendpoint.Userendpoint -> de.roman.meter.b.a:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
+    de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId getMeterListWithUserId(java.lang.Long) -> a
+    de.roman.meter.userendpoint.Userendpoint$GetUserByEmail getUserByEmail(java.lang.String) -> c
+    de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser insertMeterToUser(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Long) -> a
     de.roman.meter.userendpoint.Userendpoint$InsertUser insertUser(de.roman.meter.userendpoint.model.User) -> a
-de.roman.meter.userendpoint.Userendpoint$Builder -> de.roman.meter.c.b:
+de.roman.meter.userendpoint.Userendpoint$Builder -> de.roman.meter.b.b:
     de.roman.meter.userendpoint.Userendpoint build() -> b
     de.roman.meter.userendpoint.Userendpoint$Builder setRootUrl(java.lang.String) -> e
     de.roman.meter.userendpoint.Userendpoint$Builder setServicePath(java.lang.String) -> f
@@ -2971,11 +3016,30 @@ de.roman.meter.userendpoint.Userendpoint$Builder -> de.roman.meter.c.b:
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
-de.roman.meter.userendpoint.Userendpoint$InsertUser -> de.roman.meter.c.c:
+de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId -> de.roman.meter.b.c:
+    java.lang.Long id -> id
+    de.roman.meter.userendpoint.Userendpoint this$0 -> c
+    de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId set(java.lang.String,java.lang.Object) -> e
+    de.roman.meter.userendpoint.UserendpointRequest set(java.lang.String,java.lang.Object) -> f
+de.roman.meter.userendpoint.Userendpoint$GetUserByEmail -> de.roman.meter.b.d:
+    java.lang.String email -> email
+    de.roman.meter.userendpoint.Userendpoint this$0 -> c
+    de.roman.meter.userendpoint.Userendpoint$GetUserByEmail set(java.lang.String,java.lang.Object) -> e
+    de.roman.meter.userendpoint.UserendpointRequest set(java.lang.String,java.lang.Object) -> f
+de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser -> de.roman.meter.b.e:
+    java.lang.String meterDesc -> meterDesc
+    java.lang.String meterName -> meterName
+    java.lang.String meterType -> meterType
+    java.lang.String meterUnit -> meterUnit
+    java.lang.Long userId -> userId
+    de.roman.meter.userendpoint.Userendpoint this$0 -> c
+    de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser set(java.lang.String,java.lang.Object) -> e
+    de.roman.meter.userendpoint.UserendpointRequest set(java.lang.String,java.lang.Object) -> f
+de.roman.meter.userendpoint.Userendpoint$InsertUser -> de.roman.meter.b.f:
     de.roman.meter.userendpoint.Userendpoint this$0 -> c
     de.roman.meter.userendpoint.Userendpoint$InsertUser set(java.lang.String,java.lang.Object) -> e
     de.roman.meter.userendpoint.UserendpointRequest set(java.lang.String,java.lang.Object) -> f
-de.roman.meter.userendpoint.UserendpointRequest -> de.roman.meter.c.d:
+de.roman.meter.userendpoint.UserendpointRequest -> de.roman.meter.b.g:
     java.lang.String alt -> alt
     java.lang.String fields -> fields
     java.lang.String key -> key
@@ -2989,14 +3053,63 @@ de.roman.meter.userendpoint.UserendpointRequest -> de.roman.meter.c.d:
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
-de.roman.meter.userendpoint.model.User -> de.roman.meter.c.a.a:
-    java.lang.String id -> id
+de.roman.meter.userendpoint.model.Key -> de.roman.meter.b.a.a:
+    java.lang.String appId -> appId
+    java.lang.Boolean complete -> complete
+    java.lang.Long id -> id
+    java.lang.String kind -> kind
     java.lang.String name -> name
-    java.lang.String password -> password
-    de.roman.meter.userendpoint.model.User setName(java.lang.String) -> a
-    de.roman.meter.userendpoint.model.User setPassword(java.lang.String) -> b
+    java.lang.String namespace -> namespace
+    de.roman.meter.userendpoint.model.Key parent -> parent
+    java.lang.Long getId() -> a
+    de.roman.meter.userendpoint.model.Key getParent() -> e
+    de.roman.meter.userendpoint.model.Key set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.userendpoint.model.Key clone() -> f
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+de.roman.meter.userendpoint.model.Meter -> de.roman.meter.b.a.b:
+    java.lang.String description -> description
+    de.roman.meter.userendpoint.model.Key key -> key
+    java.lang.Float lastCount -> lastCount
+    com.google.api.client.util.DateTime lastCountDate -> lastCountDate
+    java.util.List metercounts -> metercounts
+    java.lang.String name -> name
+    java.lang.String type -> type
+    java.lang.String unit -> unit
+    de.roman.meter.userendpoint.model.User user -> user
+    de.roman.meter.userendpoint.model.Key getKey() -> a
+    java.lang.Float getLastCount() -> e
+    java.lang.String getName() -> f
+    java.lang.String getType() -> h
+    java.lang.String getUnit() -> i
+    de.roman.meter.userendpoint.model.Meter set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.userendpoint.model.Meter clone() -> j
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+de.roman.meter.userendpoint.model.MeterCollection -> de.roman.meter.b.a.c:
+    java.util.List items -> items
+    de.roman.meter.userendpoint.model.MeterCollection set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.userendpoint.model.MeterCollection clone() -> a
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+de.roman.meter.userendpoint.model.MeterCount -> de.roman.meter.b.a.d:
+    com.google.api.client.util.DateTime date -> date
+    de.roman.meter.userendpoint.model.Key key -> key
+    de.roman.meter.userendpoint.model.Meter meter -> meter
+    java.lang.Float value -> value
+    de.roman.meter.userendpoint.model.MeterCount set(java.lang.String,java.lang.Object) -> a
+    de.roman.meter.userendpoint.model.MeterCount clone() -> a
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+de.roman.meter.userendpoint.model.User -> de.roman.meter.b.a.e:
+    java.lang.String email -> email
+    de.roman.meter.userendpoint.model.Key id -> id
+    java.util.List meters -> meters
+    java.lang.String getEmail() -> a
+    de.roman.meter.userendpoint.model.User setEmail(java.lang.String) -> a
+    de.roman.meter.userendpoint.model.Key getId() -> e
     de.roman.meter.userendpoint.model.User set(java.lang.String,java.lang.Object) -> a
-    de.roman.meter.userendpoint.model.User clone() -> a
+    de.roman.meter.userendpoint.model.User clone() -> f
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
 org.codehaus.jackson.JsonEncoding -> a.a.a.a:

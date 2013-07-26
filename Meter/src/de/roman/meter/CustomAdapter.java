@@ -10,7 +10,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.jackson.JacksonFactory;
 
-//import de.roman.meter.metrendpoint.Metrendpoint;
+import de.roman.meter.metrendpoint.Metrendpoint;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

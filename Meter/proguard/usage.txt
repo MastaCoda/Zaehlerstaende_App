@@ -65,12 +65,12 @@ android.support.v4.app.Fragment:
     static final int RESUMED
     481:481:public final int getId()
     488:488:public final java.lang.String getTag()
-    510:510:public final android.os.Bundle getArguments()
     522:527:public void setInitialSavedState(android.support.v4.app.Fragment$SavedState)
     541:543:public void setTargetFragment(android.support.v4.app.Fragment,int)
     549:549:public final android.support.v4.app.Fragment getTargetFragment()
     556:556:public final int getTargetRequestCode()
     583:583:public final java.lang.CharSequence getText(int)
+    593:593:public final java.lang.String getString(int)
     606:606:public final varargs java.lang.String getString(int,java.lang.Object[])
     620:620:public final android.support.v4.app.FragmentManager getFragmentManager()
     628:640:public final android.support.v4.app.FragmentManager getChildFragmentManager()
@@ -1187,23 +1187,21 @@ com.fasterxml.jackson.core.util.VersionUtil
 com.google.android.gcm.GCMBaseIntentService:
     public static final java.lang.String TAG
     private static final java.lang.String WAKELOCK_KEY
+    private final java.lang.String mSenderId
     private static final java.lang.String EXTRA_TOKEN
+    83:85:protected GCMBaseIntentService(java.lang.String)
+    protected abstract void onMessage(android.content.Context,android.content.Intent)
+    103:103:protected void onDeletedMessages(android.content.Context,int)
+    118:118:protected boolean onRecoverableError(android.content.Context,java.lang.String)
+    protected abstract void onError(android.content.Context,java.lang.String)
+    protected abstract void onRegistered(android.content.Context,java.lang.String)
+    protected abstract void onUnregistered(android.content.Context,java.lang.String)
+    150:214:public final void onHandleIntent(android.content.Intent)
+    241:297:private void handleRegistration(android.content.Context,android.content.Intent)
 com.google.android.gcm.GCMBroadcastReceiver:
     private static final java.lang.String TAG
 com.google.android.gcm.GCMConstants
-com.google.android.gcm.GCMRegistrar:
-    private static final java.lang.String TAG
-    private static final java.lang.String BACKOFF_MS
-    private static final java.lang.String GSF_PACKAGE
-    private static final java.lang.String PREFERENCES
-    private static final int DEFAULT_BACKOFF_MS
-    private static final java.lang.String PROPERTY_REG_ID
-    private static final java.lang.String PROPERTY_APP_VERSION
-    private static final java.lang.String PROPERTY_ON_SERVER
-    247:252:public static synchronized void onDestroy(android.content.Context)
-    344:349:public static void setRegisteredOnServer(android.content.Context,boolean)
-    355:358:public static boolean isRegisteredOnServer(android.content.Context)
-    418:419:private GCMRegistrar()
+com.google.android.gcm.GCMRegistrar
 com.google.api.client.auth.oauth.AbstractOAuthGetToken
 com.google.api.client.auth.oauth.OAuthAuthorizeTemporaryTokenUrl
 com.google.api.client.auth.oauth.OAuthCallbackUrl
@@ -1377,6 +1375,7 @@ com.google.api.client.googleapis.media.MediaHttpUploader:
     925:928:public double getProgress()
 com.google.api.client.googleapis.media.MediaUploadErrorHandler
 com.google.api.client.googleapis.services.AbstractGoogleClient:
+    101:101:public final java.lang.String getRootUrl()
     113:113:public final java.lang.String getServicePath()
     208:208:public final com.google.api.client.googleapis.batch.BatchRequest batch()
     230:233:public final com.google.api.client.googleapis.batch.BatchRequest batch(com.google.api.client.http.HttpRequestInitializer)
@@ -2147,25 +2146,23 @@ de.roman.meter.CloudEndpointUtils:
     109:121:public static void logAndShow(android.app.Activity,java.lang.String,java.lang.Throwable)
     132:140:public static void showError(android.app.Activity,java.lang.String)
 de.roman.meter.CloudEndpointUtils$2
-de.roman.meter.CustomAdapter:
-    private int positionSel
-de.roman.meter.GCMIntentService:
-    protected static final java.lang.String PROJECT_NUMBER
 de.roman.meter.HomeActivity:
-    225:248:public boolean checkStringDuplicate(java.lang.String,int)
-    255:270:public static void setPreferenceArray(android.content.Context,java.lang.String,java.util.ArrayList)
-    276:294:public static java.util.ArrayList getPreferenceArray(android.content.Context,java.lang.String)
+    java.lang.String accountName
+    de.roman.meter.userendpoint.Userendpoint service
 de.roman.meter.HomeActivity$SectionFragment:
-    public static final java.lang.String ARG_SECTION_NUMBER
-    android.widget.AdapterView$AdapterContextMenuInfo info
-de.roman.meter.MainActivity
+    public static final java.lang.String ARG_SECTION_TITLE
+    578:578:public java.lang.String getMeterJsonNew()
 de.roman.meter.Manifest
 de.roman.meter.Manifest$permission
 de.roman.meter.MeterOverview:
-    12:12:public java.lang.String getName()
-    22:22:public java.lang.String getSub()
-    32:32:public int getIcon()
-    42:42:public java.lang.String getDate()
+    24:24:public java.lang.String getName()
+    34:34:public java.lang.String getCount()
+    44:44:public int getIcon()
+    54:54:public java.util.Date getDate()
+    64:64:public java.lang.Long getUserID()
+    74:74:public java.lang.Long getMeterID()
+    84:84:public java.lang.String getUnit()
+    94:94:public java.lang.String getType()
 de.roman.meter.R
 de.roman.meter.R$array
 de.roman.meter.R$attr
@@ -2176,188 +2173,8 @@ de.roman.meter.R$layout
 de.roman.meter.R$menu
 de.roman.meter.R$string
 de.roman.meter.R$style
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint:
-    public static final java.lang.String DEFAULT_ROOT_URL
-    public static final java.lang.String DEFAULT_SERVICE_PATH
-    public static final java.lang.String DEFAULT_BASE_URL
-    104:105:public Deviceinfoendpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
-    309:311:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo listDeviceInfo()
-    518:520:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo updateDeviceInfo(de.roman.meter.deviceinfoendpoint.model.DeviceInfo)
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder:
-    646:646:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
-    651:651:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setApplicationName(java.lang.String)
-    656:656:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setSuppressPatternChecks(boolean)
-    661:661:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setSuppressRequiredParameterChecks(boolean)
-    666:666:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setSuppressAllChecks(boolean)
-    676:676:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$Builder setDeviceinfoendpointRequestInitializer(de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequestInitializer)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setApplicationName(java.lang.String)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient build()
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressAllChecks(boolean)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressRequiredParameterChecks(boolean)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressPatternChecks(boolean)
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo:
-    private static final java.lang.String REST_PATH
-    158:158:public com.google.api.client.http.HttpResponse executeUsingHead()
-    163:163:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
-    168:168:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setAlt(java.lang.String)
-    173:173:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setFields(java.lang.String)
-    178:178:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setKey(java.lang.String)
-    183:183:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setOauthToken(java.lang.String)
-    188:188:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setPrettyPrint(java.lang.Boolean)
-    193:193:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setQuotaUser(java.lang.String)
-    198:198:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setUserIp(java.lang.String)
-    208:208:public java.lang.String getId()
-    212:213:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setId(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo:
-    private static final java.lang.String REST_PATH
-    260:260:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setAlt(java.lang.String)
-    265:265:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setFields(java.lang.String)
-    270:270:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setKey(java.lang.String)
-    275:275:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setOauthToken(java.lang.String)
-    280:280:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setPrettyPrint(java.lang.Boolean)
-    285:285:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setQuotaUser(java.lang.String)
-    290:290:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setUserIp(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo:
-    private static final java.lang.String REST_PATH
-    453:453:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setAlt(java.lang.String)
-    458:458:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setFields(java.lang.String)
-    463:463:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setKey(java.lang.String)
-    468:468:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setOauthToken(java.lang.String)
-    473:473:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setPrettyPrint(java.lang.Boolean)
-    478:478:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setQuotaUser(java.lang.String)
-    483:483:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setUserIp(java.lang.String)
-    493:493:public java.lang.String getId()
-    497:498:public de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo setId(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
-de.roman.meter.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo
-de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest:
-    57:57:public java.lang.String getAlt()
-    62:63:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
-    74:74:public java.lang.String getFields()
-    79:80:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
-    95:95:public java.lang.String getKey()
-    103:104:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
-    115:115:public java.lang.String getOauthToken()
-    120:121:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
-    132:132:public java.lang.Boolean getPrettyPrint()
-    137:138:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
-    153:153:public java.lang.String getQuotaUser()
-    161:162:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
-    177:177:public java.lang.String getUserIp()
-    185:186:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
-    201:201:public de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
-de.roman.meter.deviceinfoendpoint.DeviceinfoendpointRequestInitializer
-de.roman.meter.deviceinfoendpoint.model.CollectionResponseDeviceInfo
-de.roman.meter.deviceinfoendpoint.model.DeviceInfo:
-    56:56:public java.lang.String getDeviceInformation()
-    86:86:public java.lang.Long getTimestamp()
-de.roman.meter.messageEndpoint.MessageEndpoint:
-    public static final java.lang.String DEFAULT_ROOT_URL
-    public static final java.lang.String DEFAULT_SERVICE_PATH
-    public static final java.lang.String DEFAULT_BASE_URL
-    104:105:public MessageEndpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
-    245:247:public de.roman.meter.messageEndpoint.MessageEndpoint$SendMessage sendMessage(java.lang.String)
-de.roman.meter.messageEndpoint.MessageEndpoint$Builder:
-    389:389:public de.roman.meter.messageEndpoint.MessageEndpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
-    394:394:public de.roman.meter.messageEndpoint.MessageEndpoint$Builder setApplicationName(java.lang.String)
-    399:399:public de.roman.meter.messageEndpoint.MessageEndpoint$Builder setSuppressPatternChecks(boolean)
-    404:404:public de.roman.meter.messageEndpoint.MessageEndpoint$Builder setSuppressRequiredParameterChecks(boolean)
-    409:409:public de.roman.meter.messageEndpoint.MessageEndpoint$Builder setSuppressAllChecks(boolean)
-    419:419:public de.roman.meter.messageEndpoint.MessageEndpoint$Builder setMessageEndpointRequestInitializer(de.roman.meter.messageEndpoint.MessageEndpointRequestInitializer)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setApplicationName(java.lang.String)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient build()
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressAllChecks(boolean)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressRequiredParameterChecks(boolean)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressPatternChecks(boolean)
-de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages:
-    private static final java.lang.String REST_PATH
-    155:155:public com.google.api.client.http.HttpResponse executeUsingHead()
-    160:160:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
-    165:165:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setAlt(java.lang.String)
-    170:170:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setFields(java.lang.String)
-    175:175:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setKey(java.lang.String)
-    180:180:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setOauthToken(java.lang.String)
-    185:185:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setPrettyPrint(java.lang.Boolean)
-    190:190:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setQuotaUser(java.lang.String)
-    195:195:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setUserIp(java.lang.String)
-    205:205:public java.lang.String getCursor()
-    209:210:public de.roman.meter.messageEndpoint.MessageEndpoint$ListMessages setCursor(java.lang.String)
-    220:220:public java.lang.Integer getLimit()
-    1:1:public bridge synthetic de.roman.meter.messageEndpoint.MessageEndpointRequest setAlt(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.messageEndpoint.MessageEndpointRequest setPrettyPrint(java.lang.Boolean)
-    1:1:public bridge synthetic de.roman.meter.messageEndpoint.MessageEndpointRequest setUserIp(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.messageEndpoint.MessageEndpointRequest setKey(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.messageEndpoint.MessageEndpointRequest setFields(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.messageEndpoint.MessageEndpointRequest setQuotaUser(java.lang.String)
-    1:1:public bridge synthetic de.roman.meter.messageEndpoint.MessageEndpointRequest setOauthToken(java.lang.String)
-de.roman.meter.messageEndpoint.MessageEndpoint$SendMessage
-de.roman.meter.messageEndpoint.MessageEndpointRequest:
-    57:57:public java.lang.String getAlt()
-    62:63:public de.roman.meter.messageEndpoint.MessageEndpointRequest setAlt(java.lang.String)
-    74:74:public java.lang.String getFields()
-    79:80:public de.roman.meter.messageEndpoint.MessageEndpointRequest setFields(java.lang.String)
-    95:95:public java.lang.String getKey()
-    103:104:public de.roman.meter.messageEndpoint.MessageEndpointRequest setKey(java.lang.String)
-    115:115:public java.lang.String getOauthToken()
-    120:121:public de.roman.meter.messageEndpoint.MessageEndpointRequest setOauthToken(java.lang.String)
-    132:132:public java.lang.Boolean getPrettyPrint()
-    137:138:public de.roman.meter.messageEndpoint.MessageEndpointRequest setPrettyPrint(java.lang.Boolean)
-    153:153:public java.lang.String getQuotaUser()
-    161:162:public de.roman.meter.messageEndpoint.MessageEndpointRequest setQuotaUser(java.lang.String)
-    177:177:public java.lang.String getUserIp()
-    185:186:public de.roman.meter.messageEndpoint.MessageEndpointRequest setUserIp(java.lang.String)
-    201:201:public de.roman.meter.messageEndpoint.MessageEndpointRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
-    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
-de.roman.meter.messageEndpoint.MessageEndpointRequestInitializer
-de.roman.meter.messageEndpoint.model.CollectionResponseMessageData:
-    63:64:public de.roman.meter.messageEndpoint.model.CollectionResponseMessageData setItems(java.util.List)
-    71:71:public java.lang.String getNextPageToken()
-    78:79:public de.roman.meter.messageEndpoint.model.CollectionResponseMessageData setNextPageToken(java.lang.String)
-de.roman.meter.messageEndpoint.model.Key:
-    80:80:public java.lang.String getAppId()
-    87:88:public de.roman.meter.messageEndpoint.model.Key setAppId(java.lang.String)
-    95:95:public java.lang.Boolean getComplete()
-    102:103:public de.roman.meter.messageEndpoint.model.Key setComplete(java.lang.Boolean)
-    110:110:public java.lang.Long getId()
-    117:118:public de.roman.meter.messageEndpoint.model.Key setId(java.lang.Long)
-    125:125:public java.lang.String getKind()
-    132:133:public de.roman.meter.messageEndpoint.model.Key setKind(java.lang.String)
-    140:140:public java.lang.String getName()
-    147:148:public de.roman.meter.messageEndpoint.model.Key setName(java.lang.String)
-    155:155:public java.lang.String getNamespace()
-    162:163:public de.roman.meter.messageEndpoint.model.Key setNamespace(java.lang.String)
-    170:170:public de.roman.meter.messageEndpoint.model.Key getParent()
-    177:178:public de.roman.meter.messageEndpoint.model.Key setParent(de.roman.meter.messageEndpoint.model.Key)
-de.roman.meter.messageEndpoint.model.MessageData:
-    56:56:public de.roman.meter.messageEndpoint.model.Key getKey()
-    63:64:public de.roman.meter.messageEndpoint.model.MessageData setKey(de.roman.meter.messageEndpoint.model.Key)
-    78:79:public de.roman.meter.messageEndpoint.model.MessageData setMessage(java.lang.String)
-    86:86:public java.lang.Long getTimestamp()
-    93:94:public de.roman.meter.messageEndpoint.model.MessageData setTimestamp(java.lang.Long)
+de.roman.meter.WelcomeActivity:
+    android.content.SharedPreferences settings
 de.roman.meter.metercountendpoint.Metercountendpoint
 de.roman.meter.metercountendpoint.Metercountendpoint$Builder
 de.roman.meter.metercountendpoint.Metercountendpoint$GetMeterCount
@@ -2368,54 +2185,252 @@ de.roman.meter.metercountendpoint.Metercountendpoint$UpdateMeterCount
 de.roman.meter.metercountendpoint.MetercountendpointRequest
 de.roman.meter.metercountendpoint.MetercountendpointRequestInitializer
 de.roman.meter.metercountendpoint.model.CollectionResponseMeterCount
-de.roman.meter.metercountendpoint.model.Date
+de.roman.meter.metercountendpoint.model.Key
 de.roman.meter.metercountendpoint.model.Meter
 de.roman.meter.metercountendpoint.model.MeterCount
 de.roman.meter.metercountendpoint.model.User
-de.roman.meter.meterendpoint.Meterendpoint
-de.roman.meter.meterendpoint.Meterendpoint$Builder
-de.roman.meter.meterendpoint.Meterendpoint$GetMeter
-de.roman.meter.meterendpoint.Meterendpoint$InsertMeter
-de.roman.meter.meterendpoint.Meterendpoint$ListMeter
-de.roman.meter.meterendpoint.Meterendpoint$RemoveMeter
-de.roman.meter.meterendpoint.Meterendpoint$UpdateMeter
-de.roman.meter.meterendpoint.MeterendpointRequest
-de.roman.meter.meterendpoint.MeterendpointRequestInitializer
-de.roman.meter.meterendpoint.model.CollectionResponseMeter
-de.roman.meter.meterendpoint.model.Meter
-de.roman.meter.meterendpoint.model.User
-de.roman.meter.userendpoint.Userendpoint:
+de.roman.meter.metrendpoint.Metrendpoint:
     public static final java.lang.String DEFAULT_ROOT_URL
     public static final java.lang.String DEFAULT_SERVICE_PATH
     public static final java.lang.String DEFAULT_BASE_URL
-    104:105:public Userendpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
-    129:131:public de.roman.meter.userendpoint.Userendpoint$GetUser getUser(java.lang.Long)
-    306:308:public de.roman.meter.userendpoint.Userendpoint$ListUser listUser()
-    421:423:public de.roman.meter.userendpoint.Userendpoint$RemoveUser removeUser(java.lang.Long)
-    513:515:public de.roman.meter.userendpoint.Userendpoint$UpdateUser updateUser(de.roman.meter.userendpoint.model.User)
-de.roman.meter.userendpoint.Userendpoint$Builder:
-    641:641:public de.roman.meter.userendpoint.Userendpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
-    646:646:public de.roman.meter.userendpoint.Userendpoint$Builder setApplicationName(java.lang.String)
-    651:651:public de.roman.meter.userendpoint.Userendpoint$Builder setSuppressPatternChecks(boolean)
-    656:656:public de.roman.meter.userendpoint.Userendpoint$Builder setSuppressRequiredParameterChecks(boolean)
-    661:661:public de.roman.meter.userendpoint.Userendpoint$Builder setSuppressAllChecks(boolean)
-    671:671:public de.roman.meter.userendpoint.Userendpoint$Builder setUserendpointRequestInitializer(de.roman.meter.userendpoint.UserendpointRequestInitializer)
+    104:105:public Metrendpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
+    250:252:public de.roman.meter.metrendpoint.Metrendpoint$GetMetr getMetr(java.lang.Long)
+    481:483:public de.roman.meter.metrendpoint.Metrendpoint$InsertMetr insertMetr(de.roman.meter.metrendpoint.model.Meter)
+    556:558:public de.roman.meter.metrendpoint.Metrendpoint$ListMetr listMetr()
+    671:673:public de.roman.meter.metrendpoint.Metrendpoint$RemoveMetr removeMetr(java.lang.Long)
+    766:768:public de.roman.meter.metrendpoint.Metrendpoint$UpdateMetr updateMetr(java.lang.Long,java.lang.Long,java.lang.String,com.google.api.client.util.DateTime)
+de.roman.meter.metrendpoint.Metrendpoint$Builder:
+    961:961:public de.roman.meter.metrendpoint.Metrendpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
+    966:966:public de.roman.meter.metrendpoint.Metrendpoint$Builder setApplicationName(java.lang.String)
+    971:971:public de.roman.meter.metrendpoint.Metrendpoint$Builder setSuppressPatternChecks(boolean)
+    976:976:public de.roman.meter.metrendpoint.Metrendpoint$Builder setSuppressRequiredParameterChecks(boolean)
+    981:981:public de.roman.meter.metrendpoint.Metrendpoint$Builder setSuppressAllChecks(boolean)
+    991:991:public de.roman.meter.metrendpoint.Metrendpoint$Builder setMetrendpointRequestInitializer(de.roman.meter.metrendpoint.MetrendpointRequestInitializer)
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setApplicationName(java.lang.String)
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient build()
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressAllChecks(boolean)
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressRequiredParameterChecks(boolean)
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressPatternChecks(boolean)
+de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId:
+    private static final java.lang.String REST_PATH
+    161:161:public com.google.api.client.http.HttpResponse executeUsingHead()
+    166:166:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
+    171:171:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setAlt(java.lang.String)
+    176:176:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setFields(java.lang.String)
+    181:181:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setKey(java.lang.String)
+    186:186:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setOauthToken(java.lang.String)
+    191:191:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setPrettyPrint(java.lang.Boolean)
+    196:196:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setQuotaUser(java.lang.String)
+    201:201:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setUserIp(java.lang.String)
+    211:211:public java.lang.Long getMeterId()
+    215:216:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setMeterId(java.lang.Long)
+    226:226:public java.lang.Long getUserId()
+    230:231:public de.roman.meter.metrendpoint.Metrendpoint$GetMeterCountListWithUserId setUserId(java.lang.Long)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setOauthToken(java.lang.String)
+de.roman.meter.metrendpoint.Metrendpoint$GetMetr
+de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser:
+    private static final java.lang.String REST_PATH
+    387:387:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setAlt(java.lang.String)
+    392:392:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setFields(java.lang.String)
+    397:397:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setKey(java.lang.String)
+    402:402:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setOauthToken(java.lang.String)
+    407:407:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setPrettyPrint(java.lang.Boolean)
+    412:412:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setQuotaUser(java.lang.String)
+    417:417:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setUserIp(java.lang.String)
+    427:427:public java.lang.Long getMeterId()
+    431:432:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setMeterId(java.lang.Long)
+    442:442:public java.lang.Long getUserId()
+    446:447:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setUserId(java.lang.Long)
+    457:457:public java.lang.String getMetercountvalue()
+    461:462:public de.roman.meter.metrendpoint.Metrendpoint$InsertMeterCountToUser setMetercountvalue(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.metrendpoint.MetrendpointRequest setOauthToken(java.lang.String)
+de.roman.meter.metrendpoint.Metrendpoint$InsertMetr
+de.roman.meter.metrendpoint.Metrendpoint$ListMetr
+de.roman.meter.metrendpoint.Metrendpoint$RemoveMetr
+de.roman.meter.metrendpoint.Metrendpoint$UpdateMetr
+de.roman.meter.metrendpoint.MetrendpointRequest:
+    57:57:public java.lang.String getAlt()
+    62:63:public de.roman.meter.metrendpoint.MetrendpointRequest setAlt(java.lang.String)
+    74:74:public java.lang.String getFields()
+    79:80:public de.roman.meter.metrendpoint.MetrendpointRequest setFields(java.lang.String)
+    95:95:public java.lang.String getKey()
+    103:104:public de.roman.meter.metrendpoint.MetrendpointRequest setKey(java.lang.String)
+    115:115:public java.lang.String getOauthToken()
+    120:121:public de.roman.meter.metrendpoint.MetrendpointRequest setOauthToken(java.lang.String)
+    132:132:public java.lang.Boolean getPrettyPrint()
+    137:138:public de.roman.meter.metrendpoint.MetrendpointRequest setPrettyPrint(java.lang.Boolean)
+    153:153:public java.lang.String getQuotaUser()
+    161:162:public de.roman.meter.metrendpoint.MetrendpointRequest setQuotaUser(java.lang.String)
+    177:177:public java.lang.String getUserIp()
+    185:186:public de.roman.meter.metrendpoint.MetrendpointRequest setUserIp(java.lang.String)
+    201:201:public de.roman.meter.metrendpoint.MetrendpointRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
+de.roman.meter.metrendpoint.MetrendpointRequestInitializer
+de.roman.meter.metrendpoint.model.CollectionResponseMeter
+de.roman.meter.metrendpoint.model.Key:
+    80:80:public java.lang.String getAppId()
+    87:88:public de.roman.meter.metrendpoint.model.Key setAppId(java.lang.String)
+    95:95:public java.lang.Boolean getComplete()
+    102:103:public de.roman.meter.metrendpoint.model.Key setComplete(java.lang.Boolean)
+    110:110:public java.lang.Long getId()
+    117:118:public de.roman.meter.metrendpoint.model.Key setId(java.lang.Long)
+    125:125:public java.lang.String getKind()
+    132:133:public de.roman.meter.metrendpoint.model.Key setKind(java.lang.String)
+    140:140:public java.lang.String getName()
+    147:148:public de.roman.meter.metrendpoint.model.Key setName(java.lang.String)
+    155:155:public java.lang.String getNamespace()
+    162:163:public de.roman.meter.metrendpoint.model.Key setNamespace(java.lang.String)
+    170:170:public de.roman.meter.metrendpoint.model.Key getParent()
+    177:178:public de.roman.meter.metrendpoint.model.Key setParent(de.roman.meter.metrendpoint.model.Key)
+de.roman.meter.metrendpoint.model.Meter:
+    92:92:public java.lang.String getDescription()
+    99:100:public de.roman.meter.metrendpoint.model.Meter setDescription(java.lang.String)
+    107:107:public de.roman.meter.metrendpoint.model.Key getKey()
+    114:115:public de.roman.meter.metrendpoint.model.Meter setKey(de.roman.meter.metrendpoint.model.Key)
+    122:122:public java.lang.Float getLastCount()
+    129:130:public de.roman.meter.metrendpoint.model.Meter setLastCount(java.lang.Float)
+    137:137:public com.google.api.client.util.DateTime getLastCountDate()
+    144:145:public de.roman.meter.metrendpoint.model.Meter setLastCountDate(com.google.api.client.util.DateTime)
+    152:152:public java.util.List getMetercounts()
+    159:160:public de.roman.meter.metrendpoint.model.Meter setMetercounts(java.util.List)
+    167:167:public java.lang.String getName()
+    174:175:public de.roman.meter.metrendpoint.model.Meter setName(java.lang.String)
+    182:182:public java.lang.String getType()
+    189:190:public de.roman.meter.metrendpoint.model.Meter setType(java.lang.String)
+    197:197:public java.lang.String getUnit()
+    204:205:public de.roman.meter.metrendpoint.model.Meter setUnit(java.lang.String)
+    212:212:public de.roman.meter.metrendpoint.model.User getUser()
+    219:220:public de.roman.meter.metrendpoint.model.Meter setUser(de.roman.meter.metrendpoint.model.User)
+de.roman.meter.metrendpoint.model.MeterCount:
+    62:62:public com.google.api.client.util.DateTime getDate()
+    69:70:public de.roman.meter.metrendpoint.model.MeterCount setDate(com.google.api.client.util.DateTime)
+    77:77:public de.roman.meter.metrendpoint.model.Key getKey()
+    84:85:public de.roman.meter.metrendpoint.model.MeterCount setKey(de.roman.meter.metrendpoint.model.Key)
+    92:92:public de.roman.meter.metrendpoint.model.Meter getMeter()
+    99:100:public de.roman.meter.metrendpoint.model.MeterCount setMeter(de.roman.meter.metrendpoint.model.Meter)
+    107:107:public java.lang.Float getValue()
+    114:115:public de.roman.meter.metrendpoint.model.MeterCount setValue(java.lang.Float)
+de.roman.meter.metrendpoint.model.MeterCountCollection:
+    44:44:public java.util.List getItems()
+    51:52:public de.roman.meter.metrendpoint.model.MeterCountCollection setItems(java.util.List)
+de.roman.meter.metrendpoint.model.User:
+    62:62:public java.lang.String getEmail()
+    69:70:public de.roman.meter.metrendpoint.model.User setEmail(java.lang.String)
+    77:77:public de.roman.meter.metrendpoint.model.Key getId()
+    84:85:public de.roman.meter.metrendpoint.model.User setId(de.roman.meter.metrendpoint.model.Key)
+    92:92:public java.util.List getMeters()
+    99:100:public de.roman.meter.metrendpoint.model.User setMeters(java.util.List)
+de.roman.meter.userendpoint.Userendpoint:
+    public static final java.lang.String DEFAULT_ROOT_URL
+    public static final java.lang.String DEFAULT_SERVICE_PATH
+    public static final java.lang.String DEFAULT_BASE_URL
+    104:105:public Userendpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
+    232:234:public de.roman.meter.userendpoint.Userendpoint$GetUser getUser(java.lang.Long)
+    677:679:public de.roman.meter.userendpoint.Userendpoint$ListUser listUser()
+    792:794:public de.roman.meter.userendpoint.Userendpoint$RemoveUser removeUser(java.lang.Long)
+    884:886:public de.roman.meter.userendpoint.Userendpoint$UpdateUser updateUser(de.roman.meter.userendpoint.model.User)
+de.roman.meter.userendpoint.Userendpoint$Builder:
+    1012:1012:public de.roman.meter.userendpoint.Userendpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
+    1017:1017:public de.roman.meter.userendpoint.Userendpoint$Builder setApplicationName(java.lang.String)
+    1022:1022:public de.roman.meter.userendpoint.Userendpoint$Builder setSuppressPatternChecks(boolean)
+    1027:1027:public de.roman.meter.userendpoint.Userendpoint$Builder setSuppressRequiredParameterChecks(boolean)
+    1032:1032:public de.roman.meter.userendpoint.Userendpoint$Builder setSuppressAllChecks(boolean)
+    1042:1042:public de.roman.meter.userendpoint.Userendpoint$Builder setUserendpointRequestInitializer(de.roman.meter.userendpoint.UserendpointRequestInitializer)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setApplicationName(java.lang.String)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient build()
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressAllChecks(boolean)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressRequiredParameterChecks(boolean)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressPatternChecks(boolean)
+de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId:
+    private static final java.lang.String REST_PATH
+    158:158:public com.google.api.client.http.HttpResponse executeUsingHead()
+    163:163:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
+    168:168:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setAlt(java.lang.String)
+    173:173:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setFields(java.lang.String)
+    178:178:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setKey(java.lang.String)
+    183:183:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setOauthToken(java.lang.String)
+    188:188:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setPrettyPrint(java.lang.Boolean)
+    193:193:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setQuotaUser(java.lang.String)
+    198:198:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setUserIp(java.lang.String)
+    208:208:public java.lang.Long getId()
+    212:213:public de.roman.meter.userendpoint.Userendpoint$GetMeterListWithUserId setId(java.lang.Long)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setOauthToken(java.lang.String)
 de.roman.meter.userendpoint.Userendpoint$GetUser
+de.roman.meter.userendpoint.Userendpoint$GetUserByEmail:
+    private static final java.lang.String REST_PATH
+    363:363:public com.google.api.client.http.HttpResponse executeUsingHead()
+    368:368:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
+    373:373:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setAlt(java.lang.String)
+    378:378:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setFields(java.lang.String)
+    383:383:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setKey(java.lang.String)
+    388:388:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setOauthToken(java.lang.String)
+    393:393:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setPrettyPrint(java.lang.Boolean)
+    398:398:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setQuotaUser(java.lang.String)
+    403:403:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setUserIp(java.lang.String)
+    413:413:public java.lang.String getEmail()
+    417:418:public de.roman.meter.userendpoint.Userendpoint$GetUserByEmail setEmail(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setOauthToken(java.lang.String)
+de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser:
+    private static final java.lang.String REST_PATH
+    478:478:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setAlt(java.lang.String)
+    483:483:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setFields(java.lang.String)
+    488:488:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setKey(java.lang.String)
+    493:493:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setOauthToken(java.lang.String)
+    498:498:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setPrettyPrint(java.lang.Boolean)
+    503:503:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setQuotaUser(java.lang.String)
+    508:508:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setUserIp(java.lang.String)
+    518:518:public java.lang.String getMeterDesc()
+    522:523:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setMeterDesc(java.lang.String)
+    533:533:public java.lang.String getMeterName()
+    537:538:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setMeterName(java.lang.String)
+    548:548:public java.lang.String getMeterType()
+    552:553:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setMeterType(java.lang.String)
+    563:563:public java.lang.String getMeterUnit()
+    567:568:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setMeterUnit(java.lang.String)
+    578:578:public java.lang.Long getUserId()
+    582:583:public de.roman.meter.userendpoint.Userendpoint$InsertMeterToUser setUserId(java.lang.Long)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setOauthToken(java.lang.String)
 de.roman.meter.userendpoint.Userendpoint$InsertUser:
     private static final java.lang.String REST_PATH
-    258:258:public de.roman.meter.userendpoint.Userendpoint$InsertUser setAlt(java.lang.String)
-    263:263:public de.roman.meter.userendpoint.Userendpoint$InsertUser setFields(java.lang.String)
-    268:268:public de.roman.meter.userendpoint.Userendpoint$InsertUser setKey(java.lang.String)
-    273:273:public de.roman.meter.userendpoint.Userendpoint$InsertUser setOauthToken(java.lang.String)
-    278:278:public de.roman.meter.userendpoint.Userendpoint$InsertUser setPrettyPrint(java.lang.Boolean)
-    283:283:public de.roman.meter.userendpoint.Userendpoint$InsertUser setQuotaUser(java.lang.String)
-    288:288:public de.roman.meter.userendpoint.Userendpoint$InsertUser setUserIp(java.lang.String)
+    629:629:public de.roman.meter.userendpoint.Userendpoint$InsertUser setAlt(java.lang.String)
+    634:634:public de.roman.meter.userendpoint.Userendpoint$InsertUser setFields(java.lang.String)
+    639:639:public de.roman.meter.userendpoint.Userendpoint$InsertUser setKey(java.lang.String)
+    644:644:public de.roman.meter.userendpoint.Userendpoint$InsertUser setOauthToken(java.lang.String)
+    649:649:public de.roman.meter.userendpoint.Userendpoint$InsertUser setPrettyPrint(java.lang.Boolean)
+    654:654:public de.roman.meter.userendpoint.Userendpoint$InsertUser setQuotaUser(java.lang.String)
+    659:659:public de.roman.meter.userendpoint.Userendpoint$InsertUser setUserIp(java.lang.String)
     1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setAlt(java.lang.String)
     1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setPrettyPrint(java.lang.Boolean)
     1:1:public bridge synthetic de.roman.meter.userendpoint.UserendpointRequest setUserIp(java.lang.String)
@@ -2445,11 +2460,49 @@ de.roman.meter.userendpoint.UserendpointRequest:
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
 de.roman.meter.userendpoint.UserendpointRequestInitializer
 de.roman.meter.userendpoint.model.CollectionResponseUser
+de.roman.meter.userendpoint.model.Key:
+    80:80:public java.lang.String getAppId()
+    87:88:public de.roman.meter.userendpoint.model.Key setAppId(java.lang.String)
+    95:95:public java.lang.Boolean getComplete()
+    102:103:public de.roman.meter.userendpoint.model.Key setComplete(java.lang.Boolean)
+    117:118:public de.roman.meter.userendpoint.model.Key setId(java.lang.Long)
+    125:125:public java.lang.String getKind()
+    132:133:public de.roman.meter.userendpoint.model.Key setKind(java.lang.String)
+    140:140:public java.lang.String getName()
+    147:148:public de.roman.meter.userendpoint.model.Key setName(java.lang.String)
+    155:155:public java.lang.String getNamespace()
+    162:163:public de.roman.meter.userendpoint.model.Key setNamespace(java.lang.String)
+    177:178:public de.roman.meter.userendpoint.model.Key setParent(de.roman.meter.userendpoint.model.Key)
+de.roman.meter.userendpoint.model.Meter:
+    98:98:public java.lang.String getDescription()
+    105:106:public de.roman.meter.userendpoint.model.Meter setDescription(java.lang.String)
+    120:121:public de.roman.meter.userendpoint.model.Meter setKey(de.roman.meter.userendpoint.model.Key)
+    135:136:public de.roman.meter.userendpoint.model.Meter setLastCount(java.lang.Float)
+    143:143:public com.google.api.client.util.DateTime getLastCountDate()
+    150:151:public de.roman.meter.userendpoint.model.Meter setLastCountDate(com.google.api.client.util.DateTime)
+    158:158:public java.util.List getMetercounts()
+    165:166:public de.roman.meter.userendpoint.model.Meter setMetercounts(java.util.List)
+    180:181:public de.roman.meter.userendpoint.model.Meter setName(java.lang.String)
+    195:196:public de.roman.meter.userendpoint.model.Meter setType(java.lang.String)
+    210:211:public de.roman.meter.userendpoint.model.Meter setUnit(java.lang.String)
+    218:218:public de.roman.meter.userendpoint.model.User getUser()
+    225:226:public de.roman.meter.userendpoint.model.Meter setUser(de.roman.meter.userendpoint.model.User)
+de.roman.meter.userendpoint.model.MeterCollection:
+    50:50:public java.util.List getItems()
+    57:58:public de.roman.meter.userendpoint.model.MeterCollection setItems(java.util.List)
+de.roman.meter.userendpoint.model.MeterCount:
+    62:62:public com.google.api.client.util.DateTime getDate()
+    69:70:public de.roman.meter.userendpoint.model.MeterCount setDate(com.google.api.client.util.DateTime)
+    77:77:public de.roman.meter.userendpoint.model.Key getKey()
+    84:85:public de.roman.meter.userendpoint.model.MeterCount setKey(de.roman.meter.userendpoint.model.Key)
+    92:92:public de.roman.meter.userendpoint.model.Meter getMeter()
+    99:100:public de.roman.meter.userendpoint.model.MeterCount setMeter(de.roman.meter.userendpoint.model.Meter)
+    107:107:public java.lang.Float getValue()
+    114:115:public de.roman.meter.userendpoint.model.MeterCount setValue(java.lang.Float)
 de.roman.meter.userendpoint.model.User:
-    56:56:public java.lang.String getId()
-    63:64:public de.roman.meter.userendpoint.model.User setId(java.lang.String)
-    71:71:public java.lang.String getName()
-    86:86:public java.lang.String getPassword()
+    84:85:public de.roman.meter.userendpoint.model.User setId(de.roman.meter.userendpoint.model.Key)
+    92:92:public java.util.List getMeters()
+    99:100:public de.roman.meter.userendpoint.model.User setMeters(java.util.List)
 javax.annotation.CheckForNull
 javax.annotation.CheckForSigned
 javax.annotation.CheckReturnValue

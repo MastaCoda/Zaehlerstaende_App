@@ -1,6 +1,6 @@
 package de.roman.meter;
-
-import java.io.IOException;
+//
+//import java.io.IOException;
 import java.net.URLEncoder;
 
 import android.content.Context;
